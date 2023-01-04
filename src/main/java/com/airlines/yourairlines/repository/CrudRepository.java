@@ -14,7 +14,7 @@ public abstract class CrudRepository<T extends LongIdDto> implements ICrudReposi
 
     List<T> database = new ArrayList<>();
 
-    private Long idSequence;
+    private Long idSequence =0L;
 
 
     @Override
