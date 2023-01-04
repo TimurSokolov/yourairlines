@@ -26,7 +26,7 @@ public abstract class CrudController<T extends LongIdDto> {
         return getService().update(dtoToUpdate);
     }
 
-    @GetMapping("/{id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         getService().delete(id);
     }
