@@ -1,13 +1,13 @@
 package com.airlines.yourairlines.dto;
 
-public class Employee extends User{
+import com.airlines.yourairlines.annotation.UserAuthenticationControllerLink;
+import lombok.Getter;
+import lombok.Setter;
+
+@UserAuthenticationControllerLink(userType = "/employee")
+@Getter
+@Setter
+public class Employee extends User {
     private Long employeeId;
 
-    public Long getEmployeeId() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(Long employeeId) {
-        this.employeeId = employeeId;
-    }
 }
