@@ -7,9 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AirportService extends CrudService<Airport> implements IAirportService{
+public class AirportService extends CrudService<Airport> implements IAirportService {
     @Autowired
     private IAirportRepository airportRepository;
+
     @Override
     public ICrudRepository<Airport> getRepository() {
         return airportRepository;

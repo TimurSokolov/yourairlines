@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/city")
-public class CityController extends CrudController<City>{
+public class CityController extends CrudController<City> {
     @Autowired
     private ICityService cityService;
 

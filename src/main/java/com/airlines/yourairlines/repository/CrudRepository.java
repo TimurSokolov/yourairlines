@@ -1,48 +1,57 @@
 package com.airlines.yourairlines.repository;
 
+import com.airlines.yourairlines.annotation.Table;
 import com.airlines.yourairlines.dto.LongIdDto;
-import com.airlines.yourairlines.exception.NotFoundException;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.RowMapper;
 
 /**
  * Абстрактный CRUD репозиторий
  */
 
 public abstract class CrudRepository<T extends LongIdDto> implements ICrudRepository<T> {
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
-    List<T> database = new ArrayList<>();
+    abstract RowMapper<T> getMapper();
 
-    private Long idSequence = 0L;
+    abstract PreparedStatementCreator getPreparedStatementCreator(T dtoToSave);
+
+    private Class<T> classType;
+
+    public CrudRepository(Class<T> classType) {
+        this.classType = classType;
+    }
 
 
     @Override
     public T save(T dtoToSave) {
-        dtoToSave.setId(++idSequence);
-        database.add(dtoToSave);
+        jdbcTemplate.update(getPreparedStatementCreator(dtoToSave));
         return dtoToSave;
     }
 
     @Override
     public T update(T dtoToUpdate) {
-        database.remove(dtoToUpdate);
-        database.add(dtoToUpdate);
+        jdbcTemplate.update(getPreparedStatementCreator(dtoToUpdate));
         return dtoToUpdate;
     }
 
     @Override
     public T findOne(Long id) {
-        for (T dto : database) {
-            if (dto.getId().equals(id)) {
-                return dto;
-            }
-        }
-        throw new NotFoundException();
+        String sql = "SELECT * FROM " + getTableName() + " WHERE id = ?";
+        return jdbcTemplate.queryForObject(sql, getMapper(), id);
     }
 
     @Override
     public void delete(Long id) {
-        database.removeIf(dto -> dto.getId().equals(id));
+        jdbcTemplate.update("DELETE FROM " + getTableName() + " WHERE id = ?", id);
     }
+
+    private String getTableName() {
+        Table annotation = classType.getAnnotation(Table.class);
+        return annotation.tableName();
+    }
+
 }

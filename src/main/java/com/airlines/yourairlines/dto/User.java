@@ -3,8 +3,6 @@ package com.airlines.yourairlines.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
-
 /**
  * Абстрактный класс пользователей
  */
@@ -18,6 +16,6 @@ public abstract class User extends LongIdDto {
     private String login;
     private String password;
     private String phoneNumber;
-    private LocalDate birthDate;
+    //private LocalDate birthDate;
 
 }

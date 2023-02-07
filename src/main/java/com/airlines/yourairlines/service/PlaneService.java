@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PlaneService extends CrudService<Plane> implements IPlaneService{
+public class PlaneService extends CrudService<Plane> implements IPlaneService {
     @Autowired
     private IPlaneRepository planeRepository;
 

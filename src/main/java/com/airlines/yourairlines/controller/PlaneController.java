@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/plane")
-public class PlaneController extends CrudController<Plane>{
+public class PlaneController extends CrudController<Plane> {
     @Autowired
     private IPlaneService planeService;
 

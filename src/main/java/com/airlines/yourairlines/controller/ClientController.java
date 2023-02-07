@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/client")
-public class ClientController extends UserController<Client,ClientDetails> {
+public class ClientController extends UserController<Client, ClientDetails> {
     @Autowired
     private IClientService clientService;
 
@@ -18,4 +18,6 @@ public class ClientController extends UserController<Client,ClientDetails> {
     public IUserService<Client, ClientDetails> getService() {
         return clientService;
     }
+
+
 }

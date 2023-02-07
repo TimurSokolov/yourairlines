@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/airport")
-public class AirportController extends CrudController<Airport>{
+public class AirportController extends CrudController<Airport> {
     @Autowired
     private IAirportService airportService;
 

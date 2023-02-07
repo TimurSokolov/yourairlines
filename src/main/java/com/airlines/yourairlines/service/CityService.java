@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CityService extends CrudService<City> implements ICityService{
+public class CityService extends CrudService<City> implements ICityService {
     @Autowired
     private ICityRepository cityRepository;
 

@@ -18,4 +18,5 @@ public class EmployeeController extends UserController<Employee, EmployeeDetails
     public IUserService<Employee, EmployeeDetails> getService() {
         return employeeService;
     }
+
 }
