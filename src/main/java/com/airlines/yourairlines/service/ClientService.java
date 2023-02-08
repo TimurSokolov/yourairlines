@@ -32,6 +32,7 @@ public class ClientService extends UserService<Client, ClientDetails> implements
         return new Client();
     }
 
+
     @Override
     public ClientDetails createUserDetails() {
         return new ClientDetails();

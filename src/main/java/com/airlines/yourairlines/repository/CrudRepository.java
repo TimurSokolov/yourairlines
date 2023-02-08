@@ -19,7 +19,7 @@ public abstract class CrudRepository<T extends LongIdDto> implements ICrudReposi
 
     abstract PreparedStatementCreator getPreparedStatementCreator(T dtoToSave);
 
-    private Class<T> classType;
+    public Class<T> classType;
 
     public CrudRepository(Class<T> classType) {
         this.classType = classType;

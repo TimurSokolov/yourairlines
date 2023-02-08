@@ -7,9 +7,7 @@ import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
 @Repository
 public class ClientRepository extends UserRepository<Client> implements IClientRepository {
@@ -31,10 +29,10 @@ public class ClientRepository extends UserRepository<Client> implements IClientR
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
 
         String stringForSqlQuery = stackTrace[3].getMethodName().compareTo("save") == 0 ?
-        "INSERT INTO client (name, surname, login, password, phonenumber, email, cardnumber, homeairport) " +
-        "values (?, ?, ?, ?, ?, ?, ?, ?)" :
-        "UPDATE client SET name = ?, surname = ?, login = ?, password = ?, phonenumber = ?, " + "email = ?, " +
-        "cardnumber = ?, homeairport = ? WHERE id = " + dtoToSave.getId();
+                "INSERT INTO client (name, surname, login, password, phonenumber, email, cardnumber, homeairport) " +
+                        "values (?, ?, ?, ?, ?, ?, ?, ?)" :
+                "UPDATE client SET name = ?, surname = ?, login = ?, password = ?, phonenumber = ?, " + "email = ?, " +
+                        "cardnumber = ?, homeairport = ? WHERE id = " + dtoToSave.getId();
         return connection -> {
             PreparedStatement preparedStatement = connection.prepareStatement(stringForSqlQuery);
 

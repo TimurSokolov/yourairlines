@@ -2,6 +2,7 @@ package com.airlines.yourairlines.controller;
 
 import com.airlines.yourairlines.dto.ErrorNotification;
 import com.airlines.yourairlines.exception.NotFoundException;
+import com.airlines.yourairlines.exception.ValidationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -16,6 +17,13 @@ public class ExceptionHandlerController {
 
     @ExceptionHandler(RuntimeException.class)
     public ErrorNotification handlerRuntimeException(RuntimeException e) {
+        ErrorNotification errorNotification = new ErrorNotification();
+        errorNotification.setErrorMessage(e.getMessage());
+        return errorNotification;
+    }
+
+    @ExceptionHandler(ValidationException.class)
+    public ErrorNotification handlerValidationException(ValidationException e) {
         ErrorNotification errorNotification = new ErrorNotification();
         errorNotification.setErrorMessage(e.getMessage());
         return errorNotification;
