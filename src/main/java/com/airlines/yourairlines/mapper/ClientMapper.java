@@ -1,28 +1,15 @@
 package com.airlines.yourairlines.mapper;
 
-import com.airlines.yourairlines.dto.Client;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Service;
+import com.airlines.yourairlines.dto.ClientDto;
+import com.airlines.yourairlines.entity.Client;
+import org.mapstruct.Mapper;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-@Service
-public class ClientMapper implements RowMapper<Client> {
+@Mapper(componentModel = "spring")
+public abstract class ClientMapper implements EntityMapper<Client, ClientDto> {
     @Override
-    public Client mapRow(ResultSet resultSet, int rowNum) throws SQLException {
-        Client client = new Client();
+    public abstract Client mapToEntity(ClientDto clientDto);
 
-        client.setId(resultSet.getLong("id"));
-        client.setName(resultSet.getString("name"));
-        client.setSurname(resultSet.getString("surname"));
-        client.setLogin(resultSet.getString("login"));
-        client.setPassword(resultSet.getString("password"));
-        client.setPhoneNumber(resultSet.getString("phonenumber"));
-        client.setEmail(resultSet.getString("email"));
-        client.setCardNumber(resultSet.getString("cardnumber"));
-        client.setHomeAirport(resultSet.getString("homeairport"));
+    @Override
+    public abstract ClientDto mapToDto(Client client);
 
-        return client;
-    }
 }

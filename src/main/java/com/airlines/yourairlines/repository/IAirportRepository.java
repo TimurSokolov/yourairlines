@@ -1,8 +1,8 @@
 package com.airlines.yourairlines.repository;
 
-import com.airlines.yourairlines.dto.Airport;
+import com.airlines.yourairlines.entity.Airport;
+import org.springframework.stereotype.Repository;
 
-public interface IAirportRepository extends ICrudRepository<Airport> {
-
-
+@Repository
+public interface IAirportRepository extends IBaseRepository<Airport> {
 }

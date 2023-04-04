@@ -5,9 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public abstract class UserDetails {
+public class UserDetails {
     private String login;
-
     private String name;
-
 }

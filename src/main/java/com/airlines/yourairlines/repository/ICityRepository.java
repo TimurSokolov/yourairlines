@@ -1,6 +1,8 @@
 package com.airlines.yourairlines.repository;
 
-import com.airlines.yourairlines.dto.City;
+import com.airlines.yourairlines.entity.City;
+import org.springframework.stereotype.Repository;
 
-public interface ICityRepository extends ICrudRepository<City>{
+@Repository
+public interface ICityRepository extends IBaseRepository<City> {
 }

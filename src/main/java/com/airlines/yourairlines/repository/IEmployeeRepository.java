@@ -1,6 +1,8 @@
 package com.airlines.yourairlines.repository;
 
-import com.airlines.yourairlines.dto.Employee;
+import com.airlines.yourairlines.entity.Employee;
+import org.springframework.stereotype.Repository;
 
-public interface IEmployeeRepository extends IUserRepository<Employee> {
+@Repository
+public interface IEmployeeRepository extends IPersonRepository<Employee> {
 }

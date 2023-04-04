@@ -1,12 +1,10 @@
 package com.airlines.yourairlines.service;
 
-import com.airlines.yourairlines.dto.LongIdDto;
+import com.airlines.yourairlines.entity.VersionedEntity;
 
-public interface ICrudService<T extends LongIdDto> {
+public interface ICrudService<T extends VersionedEntity> {
 
-    T save(T dtoToSave);
-
-    T update(T dtoToUpdate);
+    T save(T entityToSave);
 
     T get(Long id);
 

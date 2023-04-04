@@ -1,47 +1,37 @@
 package com.airlines.yourairlines.service;
 
-import com.airlines.yourairlines.dto.LongIdDto;
-import com.airlines.yourairlines.repository.ICrudRepository;
+import com.airlines.yourairlines.entity.VersionedEntity;
+import com.airlines.yourairlines.exception.NotFoundException;
+import com.airlines.yourairlines.repository.IBaseRepository;
 
 /**
  * Абстрактные CRUD сервисы
  */
-public abstract class CrudService<T extends LongIdDto> implements ICrudService<T> {
+public abstract class CrudService<T extends VersionedEntity> implements ICrudService<T> {
 
-    public abstract ICrudRepository<T> getRepository();
+    public abstract IBaseRepository<T> getRepository();
 
-    protected abstract void validate(T dto);
+    protected abstract void validate(T entity);
 
 
     @Override
-    public T save(T dtoToSave) {
+    public T save(T entityToSave) {
 
-        if (dtoToSave.getId() != null) {
+        if (entityToSave.getId() != null) {
             throw new RuntimeException("Ошибка сохранения");
         }
 
-        validate(dtoToSave);
-        return getRepository().save(dtoToSave);
-    }
-
-    @Override
-    public T update(T dtoToUpdate) {
-
-        if (dtoToUpdate.getId() == null) {
-            throw new RuntimeException("Ошибка обновления");
-        }
-
-        validate(dtoToUpdate);
-        return getRepository().update(dtoToUpdate);
+        validate(entityToSave);
+        return getRepository().save(entityToSave);
     }
 
     @Override
     public T get(Long id) {
-        return getRepository().findOne(id);
+        return getRepository().findById(id).orElseThrow(() -> new NotFoundException("Объект с id не найден"));
     }
 
     @Override
     public void delete(Long id) {
-        getRepository().delete(id);
+        getRepository().deleteById(id);
     }
 }

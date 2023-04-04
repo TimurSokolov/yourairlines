@@ -1,9 +1,10 @@
 package com.airlines.yourairlines.repository;
 
-import com.airlines.yourairlines.dto.User;
+import com.airlines.yourairlines.entity.User;
+import org.springframework.stereotype.Repository;
 
-public interface IUserRepository<T extends User> extends ICrudRepository<T> {
+@Repository
+public interface IUserRepository<T extends User> extends IBaseRepository<T> {
 
-    T findUserByLogin(String login);
-
+    T findByLogin(String login);
 }

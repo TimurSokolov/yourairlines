@@ -1,7 +1,6 @@
 package com.airlines.yourairlines.service;
 
-import com.airlines.yourairlines.dto.Employee;
-import com.airlines.yourairlines.dto.EmployeeDetails;
+import com.airlines.yourairlines.entity.Employee;
 
-public interface IEmployeeService extends IUserService<Employee, EmployeeDetails> {
+public interface IEmployeeService extends IPersonService<Employee> {
 }

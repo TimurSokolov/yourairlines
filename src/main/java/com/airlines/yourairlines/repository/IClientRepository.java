@@ -1,6 +1,8 @@
 package com.airlines.yourairlines.repository;
 
-import com.airlines.yourairlines.dto.Client;
+import com.airlines.yourairlines.entity.Client;
+import org.springframework.stereotype.Repository;
 
-public interface IClientRepository extends IUserRepository<Client> {
+@Repository
+public interface IClientRepository extends IPersonRepository<Client> {
 }
