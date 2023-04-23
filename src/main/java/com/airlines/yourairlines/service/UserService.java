@@ -3,7 +3,6 @@ package com.airlines.yourairlines.service;
 import com.airlines.yourairlines.dto.AuthenticationDto;
 import com.airlines.yourairlines.dto.UserDetails;
 import com.airlines.yourairlines.entity.User;
-import com.airlines.yourairlines.exception.NotFoundException;
 import com.airlines.yourairlines.exception.ValidationException;
 import com.airlines.yourairlines.repository.IBaseRepository;
 import com.airlines.yourairlines.repository.IUserRepository;
@@ -73,16 +72,14 @@ public class UserService extends CrudService<User> implements IUserService {
     }
 
     private boolean loginIsExist(String login) {
-        try {
-            userRepository.findByLogin(login);
-        } catch (NotFoundException e) {
-            return false;
-        }
-        return true;
+
+
+        return userRepository.findByLogin(login).isPresent();
+
     }
 
     private boolean passwordCheckPassed(String login, String password) {
-        return password.equals(userRepository.findByLogin(login).getPassword());
+        return password.equals((userRepository.findByLogin(login).get().getLogin()));
     }
 
 

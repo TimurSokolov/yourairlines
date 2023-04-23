@@ -2,7 +2,6 @@ package com.airlines.yourairlines.controller;
 
 import com.airlines.yourairlines.dto.AuthenticationDto;
 import com.airlines.yourairlines.dto.UserDetails;
-import com.airlines.yourairlines.entity.User;
 import com.airlines.yourairlines.service.IUserService;
 import com.airlines.yourairlines.service.UserDetailsContextService;
 import jakarta.servlet.http.HttpSession;
@@ -10,8 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/user")
-public abstract class UserAuthenticationController<T extends User> {
+public class UserAuthenticationController {
     @Autowired
     public UserDetailsContextService userDetailsContextService;
     @Autowired

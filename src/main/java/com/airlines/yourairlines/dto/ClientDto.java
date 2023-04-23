@@ -10,6 +10,4 @@ public class ClientDto extends PersonDto {
     private String email;
     private String cardNumber;
     private Airport homeAirport;
-    private String login;
-    private String password;
 }

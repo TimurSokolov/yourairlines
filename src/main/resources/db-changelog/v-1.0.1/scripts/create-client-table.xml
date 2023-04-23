@@ -15,11 +15,11 @@
 
             <column name="surname" type="varchar(256)"/>
 
-            <column name="phoneNumber" type="varchar(256)"/>
+            <column name="phone_number" type="varchar(256)"/>
 
             <column name="email" type="varchar(256)"/>
 
-            <column name="cardNumber" type="varchar(256)"/>
+            <column name="card_number" type="varchar(256)"/>
 
             <column name="airport_id" type="BIGINT">
                 <constraints nullable="false"/>

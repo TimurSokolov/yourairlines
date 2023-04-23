@@ -1,8 +1,13 @@
 package com.airlines.yourairlines.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -14,4 +19,9 @@ public class Plane extends VersionedEntity {
     private Integer maxFlightRange;
     private Integer maxNumberOfPeople;
     private Integer fuelConsumption;
+
+    @OneToMany(mappedBy = "reservedPlane")
+    private List<Flight> reservedFlights = new ArrayList<>();
+
+    private LocalDateTime endOfReserveTime;
 }

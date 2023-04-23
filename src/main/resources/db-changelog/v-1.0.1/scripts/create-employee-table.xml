@@ -15,9 +15,9 @@
 
             <column name="surname" type="varchar(256)"/>
 
-            <column name="phoneNumber" type="varchar(256)"/>
+            <column name="phone_number" type="varchar(256)"/>
 
-            <column name="employeeId" type="BIGINT"/>
+            <column name="employee_id" type="BIGINT"/>
 
 
         </createTable>

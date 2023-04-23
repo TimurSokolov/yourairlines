@@ -14,5 +14,5 @@ import java.util.List;
 public class City extends VersionedEntity {
     private String name;
     @OneToMany(mappedBy = "homeCity")
-    List<Airport> airports = new ArrayList<>();
+    private List<Airport> airports = new ArrayList<>();
 }

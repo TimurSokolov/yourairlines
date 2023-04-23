@@ -1,11 +1,12 @@
 package com.airlines.yourairlines.entity;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -17,5 +18,14 @@ public class Airport extends VersionedEntity {
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "city_id", nullable = false)
+    @JsonIgnore
     private City homeCity;
+
+    @OneToMany(mappedBy = "departureAirport")
+    private List<Flight> departureFlights = new ArrayList<>();
+
+    @OneToMany(mappedBy = "arrivalAirport")
+    private List<Flight> arrivalFlights = new ArrayList<>();
+
+
 }
