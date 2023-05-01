@@ -6,6 +6,8 @@ import com.airlines.yourairlines.exception.ValidationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.io.IOException;
+
 @RestControllerAdvice
 public class ExceptionHandlerController {
     @ExceptionHandler(NotFoundException.class)
@@ -24,6 +26,13 @@ public class ExceptionHandlerController {
 
     @ExceptionHandler(ValidationException.class)
     public ErrorNotification handlerValidationException(ValidationException e) {
+        ErrorNotification errorNotification = new ErrorNotification();
+        errorNotification.setErrorMessage(e.getMessage());
+        return errorNotification;
+    }
+
+    @ExceptionHandler(IOException.class)
+    public ErrorNotification handlerIOException(IOException e) {
         ErrorNotification errorNotification = new ErrorNotification();
         errorNotification.setErrorMessage(e.getMessage());
         return errorNotification;
