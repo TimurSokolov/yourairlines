@@ -19,6 +19,7 @@ public class Plane extends VersionedEntity {
     private Integer maxFlightRange;
     private Integer maxNumberOfPeople;
     private Integer fuelConsumption;
+    private Integer cruiseSpeed;
 
     @OneToMany(mappedBy = "reservedPlane")
     private List<Flight> reservedFlights = new ArrayList<>();

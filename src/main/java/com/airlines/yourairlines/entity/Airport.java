@@ -15,6 +15,8 @@ public class Airport extends VersionedEntity {
 
     private String name;
     private String timezone;
+    private String lat;
+    private String lon;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "city_id", nullable = false)

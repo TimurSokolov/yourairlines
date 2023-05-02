@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -24,6 +23,8 @@ public class FlightService extends CrudService<Flight> implements IFlightService
     private IFlightRepository flightRepository;
     @Autowired
     private IPlaneRepository planeRepository;
+    @Autowired
+    IMapService mapService;
 
     @Override
     public IBaseRepository<Flight> getRepository() {
@@ -35,11 +36,11 @@ public class FlightService extends CrudService<Flight> implements IFlightService
 
     }
 
-    private Integer calcFlightDuration(Airport departureAirport, Airport arrivalAirport) {
+    private Integer calcFlightDuration(Airport departureAirport, Airport arrivalAirport, Plane plane) {
         if (departureAirport == arrivalAirport) {
             return 0;
         }
-        return 5;
+        return calcFlightDistance(departureAirport, arrivalAirport) / plane.getCruiseSpeed();
     }
 
 
@@ -47,12 +48,11 @@ public class FlightService extends CrudService<Flight> implements IFlightService
         if (departureAirport == arrivalAirport) {
             return 0;
         }
-        return 1000;
+        return mapService.calcDistanceBetweenPoints(departureAirport, arrivalAirport).intValue();
     }
 
 
     public ArrayList<Plane> getSuitablePlanes(Airport departureAirport, Airport arrivalAirport, LocalDateTime departureTime) {
-
         ArrayList<Plane> suitablePlanes = planeRepository.findByMaxFlightRangeGreaterThanEqualAndEndOfReserveTimeBefore(calcFlightDistance(departureAirport, arrivalAirport), departureTime);
 
         return filterPlanesWithHop(suitablePlanes, departureAirport, departureTime);
@@ -60,15 +60,13 @@ public class FlightService extends CrudService<Flight> implements IFlightService
 
     private ArrayList<Plane> filterPlanesWithHop(ArrayList<Plane> planes, Airport departureAirport, LocalDateTime departureTime) {
 
-        return planes.stream().filter(plane -> plane.getMaxFlightRange() < calcFlightDistance(departureAirport, calcLastReservedAirport(plane)))
-                .filter(plane -> departureTime.isBefore(calcLastReservedArrivalTime(plane).plusHours(calcFlightDuration(departureAirport, calcLastReservedAirport(plane)))))
+        return planes.stream().filter(plane -> plane.getMaxFlightRange() >= calcFlightDistance(departureAirport, calcLastReservedAirport(plane)))
+                .filter(plane -> departureTime.isAfter(calcLastReservedArrivalTime(plane).plusHours(calcFlightDuration(departureAirport, calcLastReservedAirport(plane), plane))))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
 
     private Airport calcLastReservedAirport(Plane plane) {
-        List<Flight> reservedFlights = plane.getReservedFlights();
-        boolean a = reservedFlights.isEmpty();
         return plane.getReservedFlights().stream().max(Comparator.comparing(Flight::getArrivalTime)).get().getDepartureAirport();
     }
 

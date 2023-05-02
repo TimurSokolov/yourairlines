@@ -1,6 +1,7 @@
 package com.airlines.yourairlines.service;
 
 import com.airlines.yourairlines.dto.CoordinatesDto;
+import com.airlines.yourairlines.entity.Airport;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Iterables;
@@ -75,7 +76,6 @@ public class MapService implements IMapService {
         final Map<String, String> params = Maps.newHashMap();
         params.put("format", "json");
         params.put("accept-language", "ru");
-        params.put("zoom", "10");
         params.put("lat", lat);
         params.put("lon", lon);
         final String url = baseUrl + '?' + encodeParams(params);// генерируем путь с параметрами
@@ -85,17 +85,30 @@ public class MapService implements IMapService {
         return addressJSON.getString("display_name");
     }
 
-    public Double calcDistanceBetweenPoints(String arrivalAddress, String destinationAddress) {
+    public Double calcDistanceBetweenPoints(String departureAddress, String arrivalAddress) {
         final CoordinatesDto arrivalAddressCoordinates = geoCoding(arrivalAddress);
-        final CoordinatesDto destinationAddressCoordinates = geoCoding(destinationAddress);
+        final CoordinatesDto departureAddressCoordinates = geoCoding(departureAddress);
 
         // Рассчитываем расстояние между точками
-        final Double dlng = deg2rad(arrivalAddressCoordinates.lon - destinationAddressCoordinates.lon);
-        final Double dlat = deg2rad(arrivalAddressCoordinates.lat - destinationAddressCoordinates.lat);
-        final Double a = sin(dlat / 2) * sin(dlat / 2) + cos(deg2rad(destinationAddressCoordinates.lat))
+        final Double dlng = deg2rad(arrivalAddressCoordinates.lon - departureAddressCoordinates.lon);
+        final Double dlat = deg2rad(arrivalAddressCoordinates.lat - departureAddressCoordinates.lat);
+        final Double a = sin(dlat / 2) * sin(dlat / 2) + cos(deg2rad(departureAddressCoordinates.lat))
                 * cos(deg2rad(arrivalAddressCoordinates.lat)) * sin(dlng / 2) * sin(dlng / 2);
         final Double c = 2 * atan2(sqrt(a), sqrt(1 - a));
         return c * EARTH_RADIUS; // получаем расстояние в километрах
     }
 
+    @Override
+    public Double calcDistanceBetweenPoints(Airport departureAirport, Airport arrivalAirport) {
+        final CoordinatesDto arrivalAddressCoordinates = new CoordinatesDto(Double.valueOf(arrivalAirport.getLat()), Double.valueOf(arrivalAirport.getLon()));
+        final CoordinatesDto departureAddressCoordinates = new CoordinatesDto(Double.valueOf(departureAirport.getLat()), Double.valueOf(departureAirport.getLon()));
+
+        // Рассчитываем расстояние между точками
+        final Double dlng = deg2rad(arrivalAddressCoordinates.lon - departureAddressCoordinates.lon);
+        final Double dlat = deg2rad(arrivalAddressCoordinates.lat - departureAddressCoordinates.lat);
+        final Double a = sin(dlat / 2) * sin(dlat / 2) + cos(deg2rad(departureAddressCoordinates.lat))
+                * cos(deg2rad(arrivalAddressCoordinates.lat)) * sin(dlng / 2) * sin(dlng / 2);
+        final Double c = 2 * atan2(sqrt(a), sqrt(1 - a));
+        return c * EARTH_RADIUS; // получаем расстояние в километрах
+    }
 }

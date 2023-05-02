@@ -17,6 +17,7 @@ public class PlaneDto extends VersionedDto {
     private Integer maxFlightRange;
     private Integer maxNumberOfPeople;
     private Integer fuelConsumption;
+    private Integer cruiseSpeed;
     private List<Flight> reservedFlights = new ArrayList<>();
     private LocalDateTime endOfReserveTime;
     private Long startAirportId;

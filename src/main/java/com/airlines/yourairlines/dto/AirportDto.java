@@ -14,6 +14,8 @@ public class AirportDto extends VersionedDto {
     private City homeCity;
     private String name;
     private String timezone;
+    private String lat;
+    private String lon;
     private List<Flight> departureFlights = new ArrayList<>();
     private List<Flight> arrivalFlights = new ArrayList<>();
 }

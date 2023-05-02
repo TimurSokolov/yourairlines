@@ -5,8 +5,6 @@ import com.airlines.yourairlines.service.IMapService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-
 @RestController
 @RequestMapping("/GoogleMap")
 public class MapController {
@@ -19,13 +17,13 @@ public class MapController {
     }
 
     @GetMapping("/getAddress")
-    public String getAddress(@RequestParam String lat, String lon) throws IOException {
+    public String getAddress(@RequestParam String lat, String lon) {
         return googleMapService.geoDecoding(lat, lon);
     }
 
     @GetMapping("/getDistance")
-    public Double getDistance(@RequestParam String arrivalAddress, String destinationAddress) throws IOException {
-        return googleMapService.calcDistanceBetweenPoints(arrivalAddress, destinationAddress);
+    public Double getDistance(@RequestParam String departureAddress, String arrivalAddress) {
+        return googleMapService.calcDistanceBetweenPoints(departureAddress, arrivalAddress);
     }
 
 

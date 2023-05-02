@@ -35,6 +35,10 @@
                 <constraints nullable="false"/>
             </column>
 
+            <column name="cruise_speed" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+
             <column name="end_of_reserve_time" type="TIMESTAMP WITHOUT TIME ZONE"/>
 
 

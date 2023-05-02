@@ -1,13 +1,14 @@
 package com.airlines.yourairlines.service;
 
 import com.airlines.yourairlines.dto.CoordinatesDto;
-
-import java.io.IOException;
+import com.airlines.yourairlines.entity.Airport;
 
 public interface IMapService {
     CoordinatesDto geoCoding(String address);
 
-    String geoDecoding(String lat, String lon) throws IOException;
+    String geoDecoding(String lat, String lon);
 
-    Double calcDistanceBetweenPoints(String arrivalAddress, String destinationAddress) throws IOException;
+    Double calcDistanceBetweenPoints(String arrivalAddress, String destinationAddress);
+
+    Double calcDistanceBetweenPoints(Airport arrivalAirport, Airport destinationAirport);
 }
