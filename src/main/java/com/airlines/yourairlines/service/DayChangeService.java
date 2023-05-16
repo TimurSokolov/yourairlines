@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class DayChangeService {
     @Getter
     @Setter
-    private LocalDateTime currentDate = LocalDateTime.now();
+    private LocalDateTime currentDate = LocalDateTime.of(2023, 1, 1, 0, 0);
 
     @Scheduled(fixedDelay = 1000)
     private void changeCurrentDate() {

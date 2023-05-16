@@ -1,6 +1,5 @@
 package com.airlines.yourairlines.dto;
 
-import com.airlines.yourairlines.entity.City;
 import com.airlines.yourairlines.entity.Flight;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 public class AirportDto extends VersionedDto {
-    private City homeCity;
+    private Long cityId;
     private String name;
     private String timezone;
     private String lat;

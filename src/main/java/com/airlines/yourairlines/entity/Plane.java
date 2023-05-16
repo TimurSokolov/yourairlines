@@ -21,7 +21,7 @@ public class Plane extends VersionedEntity {
     private Integer fuelConsumption;
     private Integer cruiseSpeed;
 
-    @OneToMany(mappedBy = "reservedPlane")
+    @OneToMany(mappedBy = "reservedPlaneId")
     private List<Flight> reservedFlights = new ArrayList<>();
 
     private LocalDateTime endOfReserveTime;

@@ -22,7 +22,7 @@ public class PlaneController extends CrudController<Plane, PlaneDto> {
     @Autowired
     private PlaneMapper planeMapper;
     @Autowired
-    FlightService flightService;
+    private IFlightService flightService;
     @Autowired
     private DayChangeService dayChangeService;
     @Autowired
@@ -40,15 +40,15 @@ public class PlaneController extends CrudController<Plane, PlaneDto> {
 
     @Override
     @PostMapping
-    public PlaneDto save(@RequestBody @Validated(Create.class) PlaneDto dtoToSave) {
+    public PlaneDto save(@RequestBody @Validated(Create.class) PlaneDto dtoToSave) { //todo убрать в сервисы
         Plane entity = planeMapper.mapToEntity(dtoToSave);
         Flight flight = new Flight();
         entity = planeService.save(entity);
         flight.setDepartureTime(dayChangeService.getCurrentDate());
         flight.setArrivalTime(dayChangeService.getCurrentDate());
-        flight.setDepartureAirport(airportService.get(dtoToSave.getStartAirportId()));
-        flight.setArrivalAirport(airportService.get(dtoToSave.getStartAirportId()));
-        flight.setReservedPlane(entity);
+        flight.setDepartureAirportId(dtoToSave.getStartAirportId());
+        flight.setArrivalAirportId(dtoToSave.getStartAirportId());
+        flight.setReservedPlaneId(entity.getId());
         flightService.save(flight);
 
         return planeMapper.mapToDto(entity);

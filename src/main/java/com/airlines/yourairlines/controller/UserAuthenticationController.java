@@ -25,7 +25,7 @@ public class UserAuthenticationController {
         return userService.login(authenticationDto);
     }
 
-    @GetMapping("/currentuser")    //todo как сделать регистронезависимым?
+    @GetMapping("/currentuser")
     public UserDetails getCurrentUserDetails() {
         return userDetailsContextService.getUserDetails();
     }

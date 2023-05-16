@@ -1,7 +1,7 @@
 package com.airlines.yourairlines.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,16 +17,12 @@ public class Airport extends VersionedEntity {
     private String timezone;
     private String lat;
     private String lon;
+    private Long cityId;
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "city_id", nullable = false)
-    @JsonIgnore
-    private City homeCity;
-
-    @OneToMany(mappedBy = "departureAirport")
+    @OneToMany(mappedBy = "departureAirportId")
     private List<Flight> departureFlights = new ArrayList<>();
 
-    @OneToMany(mappedBy = "arrivalAirport")
+    @OneToMany(mappedBy = "arrivalAirportId")
     private List<Flight> arrivalFlights = new ArrayList<>();
 
 

@@ -13,6 +13,6 @@ import java.util.List;
 @Entity
 public class City extends VersionedEntity {
     private String name;
-    @OneToMany(mappedBy = "homeCity")
-    private List<Airport> airports = new ArrayList<>();
+    @OneToMany(mappedBy = "cityId")
+    private List<Airport> airports = new ArrayList<>(); //todo при update выдаёт  "errorMessage": "could not execute statement; SQL [n/a]; constraint [timezone\" of relation \"airport]"
 }

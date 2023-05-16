@@ -6,22 +6,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/GoogleMap")
+@RequestMapping("/map")
 public class MapController {
     @Autowired
     private IMapService googleMapService;
 
-    @GetMapping("/getCoordinates/{address}")
+    @GetMapping("/getcoordinates/{address}")
     public CoordinatesDto getCoordinates(@PathVariable String address) {
         return googleMapService.geoCoding(address);
     }
 
-    @GetMapping("/getAddress")
+    @GetMapping("/getaddress")
     public String getAddress(@RequestParam String lat, String lon) {
         return googleMapService.geoDecoding(lat, lon);
     }
 
-    @GetMapping("/getDistance")
+    @GetMapping("/getdistance")
     public Double getDistance(@RequestParam String departureAddress, String arrivalAddress) {
         return googleMapService.calcDistanceBetweenPoints(departureAddress, arrivalAddress);
     }

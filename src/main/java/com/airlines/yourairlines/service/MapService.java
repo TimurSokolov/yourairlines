@@ -10,8 +10,8 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Optional;
@@ -28,15 +28,10 @@ public class MapService implements IMapService {
                 Iterables.transform(params.entrySet(), new Function<Map.Entry<String, String>, String>() {
                     @Override
                     public String apply(final Map.Entry<String, String> input) {
-                        try {
-                            final StringBuffer buffer = new StringBuffer();
-                            buffer.append(input.getKey());// получаем значение вида key=value
-                            buffer.append('=');
-                            buffer.append(URLEncoder.encode(input.getValue(), "utf-8"));// кодируем строку в соответствии со стандартом HTML 4.01
-                            return buffer.toString();
-                        } catch (final UnsupportedEncodingException e) {
-                            throw new RuntimeException(e);
-                        }
+                        String buffer = input.getKey() +// получаем значение вида key=value
+                                '=' +
+                                URLEncoder.encode(input.getValue(), StandardCharsets.UTF_8);// кодируем строку в соответствии со стандартом HTML 4.01
+                        return buffer;
                     }
                 }));
         return paramsUrl;
@@ -45,8 +40,8 @@ public class MapService implements IMapService {
     /**
      * Преобразует значение из градусов в радианы
      *
-     * @param degree
-     * @return
+     * @param degree градусы
+     * @return радианы
      */
     private static double deg2rad(final Double degree) {
         return degree * (Math.PI / 180);
@@ -61,12 +56,13 @@ public class MapService implements IMapService {
         final String url = baseUrl + '?' + encodeParams(params);// генерируем путь с параметрами
         RestTemplate restTemplate = new RestTemplate();
         String coordinatesString = restTemplate.getForObject(url, String.class);
+        assert coordinatesString != null;
         String coordinatesStringWithoutSlash = coordinatesString.replaceAll("\"", "");
         String[] strings = coordinatesStringWithoutSlash.split(",");
-        Optional optionalLon = Arrays.stream(strings).filter(s -> s.contains("lon:")).map((s -> s.split(":"))).map((s -> s[1])).findFirst();
-        Optional optionalLat = Arrays.stream(strings).filter(s -> s.contains("lat:")).map((s -> s.split(":"))).map((s -> s[1])).findFirst();
-        String lon = (String) optionalLon.get();
-        String lat = (String) optionalLat.get();
+        Optional<String> optionalLon = Arrays.stream(strings).filter(s -> s.contains("lon:")).map((s -> s.split(":"))).map((s -> s[1])).findFirst();
+        Optional<String> optionalLat = Arrays.stream(strings).filter(s -> s.contains("lat:")).map((s -> s.split(":"))).map((s -> s[1])).findFirst();
+        String lon = optionalLon.orElse("0");
+        String lat = optionalLat.orElse("0");
 
         return new CoordinatesDto(Double.valueOf(lat), Double.valueOf(lon));// итоговая широта и долгота
     }

@@ -25,6 +25,11 @@ public class FlightService extends CrudService<Flight> implements IFlightService
     private IPlaneRepository planeRepository;
     @Autowired
     IMapService mapService;
+    @Autowired
+    IAirportService airportService;
+
+    @Autowired
+    IPlaneService planeService;
 
     @Override
     public IBaseRepository<Flight> getRepository() {
@@ -52,7 +57,9 @@ public class FlightService extends CrudService<Flight> implements IFlightService
     }
 
 
-    public ArrayList<Plane> getSuitablePlanes(Airport departureAirport, Airport arrivalAirport, LocalDateTime departureTime) {
+    public ArrayList<Plane> getSuitablePlanes(Long departureAirportId, Long arrivalAirportId, LocalDateTime departureTime) {
+        Airport departureAirport = airportService.get(departureAirportId);
+        Airport arrivalAirport = airportService.get(arrivalAirportId);
         ArrayList<Plane> suitablePlanes = planeRepository.findByMaxFlightRangeGreaterThanEqualAndEndOfReserveTimeBefore(calcFlightDistance(departureAirport, arrivalAirport), departureTime);
 
         return filterPlanesWithHop(suitablePlanes, departureAirport, departureTime);
@@ -67,11 +74,19 @@ public class FlightService extends CrudService<Flight> implements IFlightService
 
 
     private Airport calcLastReservedAirport(Plane plane) {
-        return plane.getReservedFlights().stream().max(Comparator.comparing(Flight::getArrivalTime)).get().getDepartureAirport();
+        return airportService.get(plane.getReservedFlights().stream().max(Comparator.comparing(Flight::getArrivalTime)).get().getDepartureAirportId());
     }
 
     private LocalDateTime calcLastReservedArrivalTime(Plane plane) {
         return plane.getReservedFlights().stream().max(Comparator.comparing(Flight::getArrivalTime)).get().getArrivalTime();
     }
 
+    @Override
+    public Flight save(Flight entityToSave) {
+        if (entityToSave.getArrivalTime() == null) {
+            Integer flightDuration = calcFlightDuration(airportService.get(entityToSave.getDepartureAirportId()), airportService.get(entityToSave.getArrivalAirportId()), planeService.get(entityToSave.getReservedPlaneId()));
+            entityToSave.setArrivalTime(entityToSave.getDepartureTime().plusHours(flightDuration));
+        }
+        return super.save(entityToSave);
+    }
 }

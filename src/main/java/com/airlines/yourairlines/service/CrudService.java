@@ -16,18 +16,13 @@ public abstract class CrudService<T extends VersionedEntity> implements ICrudSer
 
     @Override
     public T save(T entityToSave) {
-
-        if (entityToSave.getId() != null) {
-            throw new RuntimeException("Ошибка сохранения");
-        }
-
         validate(entityToSave);
         return getRepository().save(entityToSave);
     }
 
     @Override
     public T get(Long id) {
-        return getRepository().findById(id).orElseThrow(() -> new NotFoundException("Объект с id не найден"));
+        return getRepository().findById(id).orElseThrow(() -> new NotFoundException("Объект с id " + id + " не найден"));
     }
 
     @Override

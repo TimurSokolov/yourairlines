@@ -7,6 +7,8 @@ import com.airlines.yourairlines.repository.IPlaneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 public class PlaneService extends CrudService<Plane> implements IPlaneService {
     @Autowired
@@ -24,7 +26,7 @@ public class PlaneService extends CrudService<Plane> implements IPlaneService {
     @Override
     protected void validate(Plane entity) {
         if (entity.getEndOfReserveTime() == null) {
-            entity.setEndOfReserveTime(dayChangeService.getCurrentDate());
+            entity.setEndOfReserveTime(LocalDateTime.of(2023, 1, 1, 0, 0));
         }
 
     }
