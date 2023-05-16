@@ -77,7 +77,7 @@ public class FlightService extends CrudService<Flight> implements IFlightService
         return airportService.get(plane.getReservedFlights().stream().max(Comparator.comparing(Flight::getArrivalTime)).get().getDepartureAirportId());
     }
 
-    private LocalDateTime calcLastReservedArrivalTime(Plane plane) {
+    public LocalDateTime calcLastReservedArrivalTime(Plane plane) {
         return plane.getReservedFlights().stream().max(Comparator.comparing(Flight::getArrivalTime)).get().getArrivalTime();
     }
 
@@ -87,6 +87,6 @@ public class FlightService extends CrudService<Flight> implements IFlightService
             Integer flightDuration = calcFlightDuration(airportService.get(entityToSave.getDepartureAirportId()), airportService.get(entityToSave.getArrivalAirportId()), planeService.get(entityToSave.getReservedPlaneId()));
             entityToSave.setArrivalTime(entityToSave.getDepartureTime().plusHours(flightDuration));
         }
-        return super.save(entityToSave);
+        return super.save(entityToSave); //todo или поменять на прямой вызов репозитория?
     }
 }

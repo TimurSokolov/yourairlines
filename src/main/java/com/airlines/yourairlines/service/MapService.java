@@ -80,7 +80,7 @@ public class MapService implements IMapService {
         JSONObject addressJSON = new JSONObject(addressString);
         return addressJSON.getString("display_name");
     }
-
+    @Override
     public Double calcDistanceBetweenPoints(String departureAddress, String arrivalAddress) {
         final CoordinatesDto arrivalAddressCoordinates = geoCoding(arrivalAddress);
         final CoordinatesDto departureAddressCoordinates = geoCoding(departureAddress);

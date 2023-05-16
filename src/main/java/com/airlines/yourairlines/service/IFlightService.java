@@ -9,4 +9,6 @@ import java.util.ArrayList;
 public interface IFlightService extends ICrudService<Flight> {
     ArrayList<Plane> getSuitablePlanes(Long departureAirportId, Long arrivalAirportId, LocalDateTime departureTime);
 
+    LocalDateTime calcLastReservedArrivalTime(Plane plane);
+
 }
