@@ -1,7 +1,6 @@
 package com.airlines.yourairlines.service;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -13,15 +12,16 @@ import java.time.LocalDateTime;
 @Slf4j
 @Getter
 @Setter
-@RequiredArgsConstructor
+
 public class DayChangeService {
 
-
     private LocalDateTime currentDate = LocalDateTime.of(2023, 1, 1, 0, 0);
+    private Integer increaseHour = 1;
+    private Integer increaseMinute = 0;
 
     @Scheduled(fixedDelay = 1000)
     private void changeCurrentDate() {
-        currentDate = currentDate.plusHours(1);
+        currentDate = currentDate.plusHours(increaseHour).minusMinutes(increaseMinute);
         log.info("Current date: {}", currentDate);
     }
 
