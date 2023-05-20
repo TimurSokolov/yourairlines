@@ -1,6 +1,5 @@
 package com.airlines.yourairlines.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -17,7 +16,6 @@ public class Client extends Person {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "airport_id", nullable = false)
-    @JsonIgnore
     private Airport homeAirport;
 
     private Long user_id;

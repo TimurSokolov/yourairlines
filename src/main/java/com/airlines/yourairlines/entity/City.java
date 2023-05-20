@@ -14,5 +14,5 @@ import java.util.List;
 public class City extends VersionedEntity {
     private String name;
     @OneToMany(mappedBy = "cityId")
-    private List<Airport> airports = new ArrayList<>(); //todo при update выдаёт  "errorMessage": "could not execute statement; SQL [n/a]; constraint [timezone\" of relation \"airport]"
+    private List<Airport> airports = new ArrayList<>();
 }

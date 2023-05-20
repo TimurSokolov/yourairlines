@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class FlightDto extends VersionedDto {
-    private Long departureAirportId; //todo стоит переделать на id?
+    private Long departureAirportId;
     private LocalDateTime arrivalTime;
     private Long arrivalAirportId;
     private Long reservedPlaneId;

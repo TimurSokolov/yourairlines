@@ -17,19 +17,19 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-
 public class FlightService extends CrudService<Flight> implements IFlightService {
     @Autowired
     private IFlightRepository flightRepository;
     @Autowired
     private IPlaneRepository planeRepository;
     @Autowired
-    IMapService mapService;
+    private IMapService mapService;
     @Autowired
-    IAirportService airportService;
+    private IAirportService airportService;
 
     @Autowired
-    IPlaneService planeService;
+    private IPlaneService planeService;
+
 
     @Override
     public IBaseRepository<Flight> getRepository() {
@@ -74,11 +74,13 @@ public class FlightService extends CrudService<Flight> implements IFlightService
 
 
     private Airport calcLastReservedAirport(Plane plane) {
-        return airportService.get(plane.getReservedFlights().stream().max(Comparator.comparing(Flight::getArrivalTime)).get().getDepartureAirportId());
+        ArrayList<Flight> reservedFlights = flightRepository.findByReservedPlaneId(plane.getId());
+        return airportService.get(reservedFlights.stream().max(Comparator.comparing(Flight::getArrivalTime)).get().getDepartureAirportId());
     }
 
     public LocalDateTime calcLastReservedArrivalTime(Plane plane) {
-        return plane.getReservedFlights().stream().max(Comparator.comparing(Flight::getArrivalTime)).get().getArrivalTime();
+        ArrayList<Flight> reservedFlights = flightRepository.findByReservedPlaneId(plane.getId());
+        return reservedFlights.stream().max(Comparator.comparing(Flight::getArrivalTime)).get().getArrivalTime();
     }
 
     @Override
@@ -87,6 +89,6 @@ public class FlightService extends CrudService<Flight> implements IFlightService
             Integer flightDuration = calcFlightDuration(airportService.get(entityToSave.getDepartureAirportId()), airportService.get(entityToSave.getArrivalAirportId()), planeService.get(entityToSave.getReservedPlaneId()));
             entityToSave.setArrivalTime(entityToSave.getDepartureTime().plusHours(flightDuration));
         }
-        return super.save(entityToSave); //todo или поменять на прямой вызов репозитория?
+        return flightRepository.save(entityToSave);
     }
 }
