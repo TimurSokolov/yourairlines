@@ -16,7 +16,7 @@ public class DayChangeController {
     @GetMapping("/changecurrentdaterate")
     public String changeCurrentDateRate(@RequestParam Integer increaseHour, Integer increaseMinute) {
         dayChangeService.setIncreaseHour(increaseHour);
-        dayChangeService.setIncreaseMinute(increaseMinute);
+        dayChangeService.setIncreaseMinutes(increaseMinute);
         return "Прибавляется по " + increaseHour + " ч. и " + increaseMinute + " мин.";
     }
 }

@@ -6,6 +6,7 @@ import com.airlines.yourairlines.entity.Plane;
 import com.airlines.yourairlines.repository.IBaseRepository;
 import com.airlines.yourairlines.repository.IFlightRepository;
 import com.airlines.yourairlines.repository.IPlaneRepository;
+import com.airlines.yourairlines.utils.EventLog;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,10 +27,10 @@ public class FlightService extends CrudService<Flight> implements IFlightService
     private IMapService mapService;
     @Autowired
     private IAirportService airportService;
-
     @Autowired
     private IPlaneService planeService;
-
+    @Autowired
+    private EventLog eventLog;
 
     @Override
     public IBaseRepository<Flight> getRepository() {
@@ -86,15 +87,20 @@ public class FlightService extends CrudService<Flight> implements IFlightService
 
     @Override
     public Flight save(Flight entityToSave) {
-        if (entityToSave.getArrivalTime() == null) {
 
-            Airport departureAirport = airportService.get(entityToSave.getDepartureAirportId());
-            Airport arrivalAirport = airportService.get(entityToSave.getArrivalAirportId());
-            Plane plane = planeService.get(entityToSave.getReservedPlaneId());
+        Airport departureAirport = airportService.get(entityToSave.getDepartureAirportId());
+        Airport arrivalAirport = airportService.get(entityToSave.getArrivalAirportId());
+        Plane plane = planeService.get(entityToSave.getReservedPlaneId());
 
-            Integer flightDuration = calcFlightDuration(departureAirport, arrivalAirport, plane);
-            entityToSave.setArrivalTime(entityToSave.getDepartureTime().plusMinutes(flightDuration));
-        }
+        Integer flightDuration = calcFlightDuration(departureAirport, arrivalAirport, plane);
+        entityToSave.setArrivalTime(entityToSave.getDepartureTime().plusMinutes(flightDuration));
+
+        eventLog.getEventLog().put(entityToSave.getDepartureTime(), "Борт " + plane.getSideNumber() +
+                " вылетел аэропорта " + departureAirport.getName() + " в аэропорт " + arrivalAirport.getName());
+
+        eventLog.getEventLog().put(entityToSave.getArrivalTime(), "Борт " + plane.getSideNumber() +
+                " прилетел в аэропорт " + arrivalAirport.getName() + " из аэропорта " + departureAirport.getName());
+
         return flightRepository.save(entityToSave);
     }
 }
