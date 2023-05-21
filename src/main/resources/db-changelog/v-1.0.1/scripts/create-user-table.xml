@@ -15,7 +15,7 @@
 
             <column name="password" type="varchar(256)"/>
 
-            <column name="authority" type="varchar(256)"/>
+            <column name="role" type="varchar(256)"/>
 
         </createTable>
     </changeSet>

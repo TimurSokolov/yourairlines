@@ -1,11 +1,10 @@
 package com.airlines.yourairlines.service;
 
-import com.airlines.yourairlines.dto.AuthenticationDto;
+import com.airlines.yourairlines.entity.User;
+
+import java.util.Optional;
 
 public interface IUserService {
-
-    boolean register(AuthenticationDto authenticationDto);
-
-    boolean login(AuthenticationDto authenticationDto);
+    Optional<User> getByLogin(String login);
 
 }

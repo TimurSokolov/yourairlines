@@ -1,6 +1,7 @@
 package com.airlines.yourairlines.controller;
 
 import com.airlines.yourairlines.dto.ErrorNotification;
+import com.airlines.yourairlines.exception.AuthException;
 import com.airlines.yourairlines.exception.NotFoundException;
 import com.airlines.yourairlines.exception.ValidationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -33,6 +34,13 @@ public class ExceptionHandlerController {
 
     @ExceptionHandler(IOException.class)
     public ErrorNotification handlerIOException(IOException e) {
+        ErrorNotification errorNotification = new ErrorNotification();
+        errorNotification.setErrorMessage(e.getMessage());
+        return errorNotification;
+    }
+
+    @ExceptionHandler(AuthException.class)
+    public ErrorNotification handleAuthException(AuthException e) {
         ErrorNotification errorNotification = new ErrorNotification();
         errorNotification.setErrorMessage(e.getMessage());
         return errorNotification;

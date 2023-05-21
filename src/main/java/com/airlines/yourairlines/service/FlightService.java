@@ -45,7 +45,8 @@ public class FlightService extends CrudService<Flight> implements IFlightService
         if (departureAirport == arrivalAirport) {
             return 0;
         }
-        return calcFlightDistance(departureAirport, arrivalAirport) / plane.getCruiseSpeed();
+        Integer flightDistance = calcFlightDistance(departureAirport, arrivalAirport);
+        return (int) (((double) flightDistance / (double) plane.getCruiseSpeed()) * 60);
     }
 
 
@@ -86,8 +87,13 @@ public class FlightService extends CrudService<Flight> implements IFlightService
     @Override
     public Flight save(Flight entityToSave) {
         if (entityToSave.getArrivalTime() == null) {
-            Integer flightDuration = calcFlightDuration(airportService.get(entityToSave.getDepartureAirportId()), airportService.get(entityToSave.getArrivalAirportId()), planeService.get(entityToSave.getReservedPlaneId()));
-            entityToSave.setArrivalTime(entityToSave.getDepartureTime().plusHours(flightDuration));
+
+            Airport departureAirport = airportService.get(entityToSave.getDepartureAirportId());
+            Airport arrivalAirport = airportService.get(entityToSave.getArrivalAirportId());
+            Plane plane = planeService.get(entityToSave.getReservedPlaneId());
+
+            Integer flightDuration = calcFlightDuration(departureAirport, arrivalAirport, plane);
+            entityToSave.setArrivalTime(entityToSave.getDepartureTime().plusMinutes(flightDuration));
         }
         return flightRepository.save(entityToSave);
     }

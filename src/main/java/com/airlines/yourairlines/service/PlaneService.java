@@ -39,7 +39,7 @@ public class PlaneService extends CrudService<Plane> implements IPlaneService {
 
     public PlaneState getPlaneState(Long planeId) {
         Plane plane = planeRepository.findById(planeId).orElseThrow(() -> new NotFoundException("Самолёт с id " + planeId + " не найден"));
-        if (flightRepository.findByReservedPlaneId(plane.getId()).stream().anyMatch(s -> s.getDepartureTime().isBefore(dayChangeService.getCurrentDate()) && s.getArrivalTime().isAfter(dayChangeService.getCurrentDate()))) {
+        if (flightRepository.findByReservedPlaneId(plane.getId()).stream().anyMatch(s -> s.getDepartureTime().isBefore(dayChangeService.getCurrentDate()) && s.getArrivalTime().isAfter(dayChangeService.getCurrentDate()))) { //todo корректно обращаться сразу в flightRepository?
             return PlaneState.IN_FLIGHT;
         } else if (flightService.calcLastReservedArrivalTime(plane).isBefore(dayChangeService.getCurrentDate())) {
             return PlaneState.NOT_RESERVED;

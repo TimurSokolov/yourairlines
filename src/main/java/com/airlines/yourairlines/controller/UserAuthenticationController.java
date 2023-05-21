@@ -1,11 +1,14 @@
 package com.airlines.yourairlines.controller;
 
-import com.airlines.yourairlines.dto.AuthenticationDto;
+import com.airlines.yourairlines.dto.AuthRequest;
+import com.airlines.yourairlines.dto.AuthResponse;
+import com.airlines.yourairlines.dto.RegisterRequest;
 import com.airlines.yourairlines.dto.UserDetails;
-import com.airlines.yourairlines.service.IUserService;
+import com.airlines.yourairlines.service.IAuthService;
 import com.airlines.yourairlines.service.UserDetailsContextService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,16 +16,16 @@ public class UserAuthenticationController {
     @Autowired
     public UserDetailsContextService userDetailsContextService;
     @Autowired
-    private IUserService userService;
+    private IAuthService authService;
 
     @PostMapping("/register")
-    public boolean register(@RequestBody AuthenticationDto authenticationDto) {
-        return userService.register(authenticationDto);
+    public AuthResponse register(@RequestBody @Validated RegisterRequest registerRequest) {
+        return authService.register(registerRequest);
     }
 
     @PutMapping("/login")
-    public boolean login(@RequestBody AuthenticationDto authenticationDto) {
-        return userService.login(authenticationDto);
+    public AuthResponse login(@RequestBody AuthRequest authRequest) {
+        return authService.login(authRequest);
     }
 
     @GetMapping("/currentuser")
