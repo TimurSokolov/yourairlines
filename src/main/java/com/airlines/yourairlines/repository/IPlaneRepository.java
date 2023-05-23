@@ -9,4 +9,5 @@ import java.util.ArrayList;
 @Repository
 public interface IPlaneRepository extends IBaseRepository<Plane> {
     ArrayList<Plane> findByMaxFlightRangeGreaterThanEqualAndEndOfReserveTimeBefore(Integer flightDistance, LocalDateTime requiredDateTime);
+
 }

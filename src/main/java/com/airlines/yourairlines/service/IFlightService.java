@@ -11,4 +11,11 @@ public interface IFlightService extends ICrudService<Flight> {
 
     LocalDateTime calcLastReservedArrivalTime(Plane plane);
 
+    ArrayList<Flight> findByReservedPlaneId(Long reservedPlaneId);
+
+    ArrayList<Flight> findByDepartureTimeAfterAndDepartureTimeBefore(LocalDateTime startTimeOfSync, LocalDateTime endTimeOfSync);
+
+    ArrayList<Flight> findByArrivalTimeAfterAndArrivalTimeBefore(LocalDateTime startTimeOfSync, LocalDateTime endTimeOfSync);
+
+
 }

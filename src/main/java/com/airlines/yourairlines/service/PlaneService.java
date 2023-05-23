@@ -1,16 +1,18 @@
 package com.airlines.yourairlines.service;
 
+import com.airlines.yourairlines.entity.Flight;
 import com.airlines.yourairlines.entity.Plane;
 import com.airlines.yourairlines.enums.PlaneState;
 import com.airlines.yourairlines.exception.NotFoundException;
 import com.airlines.yourairlines.repository.IBaseRepository;
-import com.airlines.yourairlines.repository.IFlightRepository;
 import com.airlines.yourairlines.repository.IPlaneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Optional;
 
 
 @Service
@@ -22,8 +24,6 @@ public class PlaneService extends CrudService<Plane> implements IPlaneService {
     @Lazy
     @Autowired
     private IFlightService flightService;
-    @Autowired
-    private IFlightRepository flightRepository;
 
     @Override
     public IBaseRepository<Plane> getRepository() {
@@ -39,13 +39,41 @@ public class PlaneService extends CrudService<Plane> implements IPlaneService {
 
     public PlaneState getPlaneState(Long planeId) {
         Plane plane = planeRepository.findById(planeId).orElseThrow(() -> new NotFoundException("Самолёт с id " + planeId + " не найден"));
-        if (flightRepository.findByReservedPlaneId(plane.getId()).stream().anyMatch(s -> s.getDepartureTime().isBefore(dayChangeService.getCurrentDate()) && s.getArrivalTime().isAfter(dayChangeService.getCurrentDate()))) { //todo корректно обращаться сразу в flightRepository?
+        if (flightService.findByReservedPlaneId(plane.getId()).stream().anyMatch(s -> s.getDepartureTime().isBefore(dayChangeService.getCurrentDate()) && s.getArrivalTime().isAfter(dayChangeService.getCurrentDate()))) { //todo корректно обращаться сразу в flightRepository?
             return PlaneState.IN_FLIGHT;
         } else if (flightService.calcLastReservedArrivalTime(plane).isBefore(dayChangeService.getCurrentDate())) {
             return PlaneState.NOT_RESERVED;
         }
 
         return PlaneState.RESERVED;
+    }
 
+    public String getSideNumberById(Long id) {
+        Optional<Plane> planeOpt = planeRepository.findById(id);
+        Plane plane = planeOpt.orElseThrow(() -> new NotFoundException("Борт с id = " + id + " не найден"));
+        return plane.getSideNumber();
+    }
+
+    @Override
+    public ArrayList<Plane> findByMaxFlightRangeGreaterThanEqualAndEndOfReserveTimeBefore(Integer flightDistance, LocalDateTime requiredDateTime) {
+        return planeRepository.findByMaxFlightRangeGreaterThanEqualAndEndOfReserveTimeBefore(flightDistance, requiredDateTime);
+    }
+
+    public Plane findById(Long id) {
+        Optional<Plane> planeOptional = planeRepository.findById(id);
+        return planeOptional.orElseThrow(() -> new NotFoundException("Борт с id = " + id + " не найден"));
+    }
+
+    @Override
+    public Plane save(Plane planeToSave, Long startAirportId) {
+        Flight flight = new Flight();
+        planeToSave = planeRepository.save(planeToSave);
+        flight.setDepartureTime(dayChangeService.getCurrentDate());
+        flight.setArrivalTime(dayChangeService.getCurrentDate());
+        flight.setDepartureAirportId(startAirportId);
+        flight.setArrivalAirportId(startAirportId);
+        flight.setReservedPlaneId(planeToSave.getId());
+        flightService.save(flight);
+        return super.save(planeToSave);
     }
 }

@@ -2,7 +2,6 @@ package com.airlines.yourairlines.controller;
 
 import com.airlines.yourairlines.dto.PlaneDto;
 import com.airlines.yourairlines.dto.valiation.Create;
-import com.airlines.yourairlines.entity.Flight;
 import com.airlines.yourairlines.entity.Plane;
 import com.airlines.yourairlines.enums.PlaneState;
 import com.airlines.yourairlines.mapper.EntityMapper;
@@ -32,23 +31,15 @@ public class PlaneController extends CrudController<Plane, PlaneDto> {
     }
 
     @Override
-    public EntityMapper getMapper() {
+    public EntityMapper<Plane, PlaneDto> getMapper() {
         return planeMapper;
     }
 
     @Override
     @PostMapping
-    public PlaneDto save(@RequestBody @Validated(Create.class) PlaneDto dtoToSave) { //todo убрать в сервисы
+    public PlaneDto save(@RequestBody @Validated(Create.class) PlaneDto dtoToSave) {
         Plane entity = planeMapper.mapToEntity(dtoToSave);
-        Flight flight = new Flight();
-        entity = planeService.save(entity);
-        flight.setDepartureTime(dayChangeService.getCurrentDate());
-        flight.setArrivalTime(dayChangeService.getCurrentDate());
-        flight.setDepartureAirportId(dtoToSave.getStartAirportId());
-        flight.setArrivalAirportId(dtoToSave.getStartAirportId());
-        flight.setReservedPlaneId(entity.getId());
-        flightService.save(flight);
-
+        entity = planeService.save(entity, dtoToSave.getStartAirportId());
         return planeMapper.mapToDto(entity);
     }
 
