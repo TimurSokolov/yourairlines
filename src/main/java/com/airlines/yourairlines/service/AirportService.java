@@ -13,6 +13,8 @@ import java.util.Optional;
 public class AirportService extends CrudService<Airport> implements IAirportService {
     @Autowired
     private IAirportRepository airportRepository;
+    @Autowired
+    ICityService cityService;
 
     @Override
     public IBaseRepository<Airport> getRepository() {
@@ -26,6 +28,16 @@ public class AirportService extends CrudService<Airport> implements IAirportServ
     public Airport findById(Long id) {
         Optional<Airport> airportOptional = airportRepository.findById(id);
         return airportOptional.orElseThrow(() -> new NotFoundException("Аэропорт с id = " + id + " не найден"));
+    }
+
+    @Override
+    public Airport save(Airport airport) {
+        try {
+            cityService.get(airport.getCityId());
+        } catch (NotFoundException e) {
+            throw new NotFoundException(String.format("Города с id = %s не существует", airport.getCityId()));
+        }
+        return airportRepository.save(airport);
     }
 
     public String getAirportNameById(Long id) {

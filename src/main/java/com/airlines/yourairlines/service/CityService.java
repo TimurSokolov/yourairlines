@@ -18,6 +18,6 @@ public class CityService extends CrudService<City> implements ICityService {
 
     @Override
     protected void validate(City entity) {
-
     }
+
 }
