@@ -2,6 +2,7 @@ package com.airlines.yourairlines.service;
 
 import com.airlines.yourairlines.entity.Airport;
 import com.airlines.yourairlines.entity.Flight;
+import com.airlines.yourairlines.entity.LongIdEntity;
 import com.airlines.yourairlines.entity.Plane;
 import com.airlines.yourairlines.enums.PlaneState;
 import com.airlines.yourairlines.exception.NotFoundException;
@@ -61,9 +62,6 @@ public class PlaneService extends CrudService<Plane> implements IPlaneService {
         Airport departureAirport = airportService.findById(departureAirportId);
         Airport arrivalAirport = airportService.findById(arrivalAirportId);
         Integer flightDistance = flightService.calcFlightDistance(departureAirport, arrivalAirport);
-        String requiredDateTime = departureTime.toString().replaceAll("T", " ").concat(":00");
-        log.info("departureTime " + departureTime.toString());
-        log.info("requiredDateTimeStr " + requiredDateTime);
 
         return planeRepository.findSuitablePlanes(flightDistance, departureTime, departureAirportId);
     }
@@ -84,5 +82,14 @@ public class PlaneService extends CrudService<Plane> implements IPlaneService {
         flight.setReservedPlaneId(planeToSave.getId());
         flightService.save(flight);
         return super.save(planeToSave);
+    }
+
+    @Override
+    public void delete(Long id) {
+        ArrayList<Flight> flightsToDelete = flightService.findByReservedPlaneId(id);
+        flightsToDelete.stream().map(LongIdEntity::getId).forEach(flightId -> flightService.delete(flightId));
+        Optional<Plane> planeOptional = planeRepository.findById(id);
+        Plane plane = planeOptional.orElseThrow(() -> new NotFoundException("Борт с id = " + id + " не найден"));
+        planeRepository.delete(plane);
     }
 }

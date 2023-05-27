@@ -57,7 +57,7 @@ public class FlightService extends CrudService<Flight> implements IFlightService
 
     public LocalDateTime calcLastReservedArrivalTime(Plane plane) {
         ArrayList<Flight> reservedFlights = flightRepository.findByReservedPlaneId(plane.getId());
-        return reservedFlights.stream().max(Comparator.comparing(Flight::getArrivalTime)).get().getArrivalTime();
+        return reservedFlights.stream().max(Comparator.comparing(Flight::getArrivalTime)).get().getArrivalTime(); //todo извлечь безопасно
     }
 
     @Override
