@@ -11,7 +11,7 @@ public interface IPlaneService extends ICrudService<Plane> {
 
     String getSideNumberById(Long id);
 
-    ArrayList<Plane> findByMaxFlightRangeGreaterThanEqualAndEndOfReserveTimeBefore(Integer flightDistance, LocalDateTime requiredDateTime);
+    ArrayList<Plane> findSuitablePlanes(Long departureAirportId, Long arrivalAirportId, LocalDateTime requiredDateTime);
 
     Plane findById(Long id);
 

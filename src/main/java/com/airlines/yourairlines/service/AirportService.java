@@ -23,8 +23,9 @@ public class AirportService extends CrudService<Airport> implements IAirportServ
     protected void validate(Airport entity) {
     }
 
-    public Optional<Airport> findById(Long id) {
-        return airportRepository.findById(id);
+    public Airport findById(Long id) {
+        Optional<Airport> airportOptional = airportRepository.findById(id);
+        return airportOptional.orElseThrow(() -> new NotFoundException("Аэропорт с id = " + id + " не найден"));
     }
 
     public String getAirportNameById(Long id) {

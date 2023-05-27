@@ -3,8 +3,9 @@
                    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
-    <include file="classpath:db-changelog/v-1.0.1/cumulative.xml"/>
-    <include file="classpath:db-changelog/v-1.0.2/cumulative.xml"/>
-
-
+    <changeSet author="Andrei_Shamshurin" id="change-plane-table">
+        <dropColumn tableName="plane">
+            <column name="end_of_reserve_time"/>
+        </dropColumn>
+    </changeSet>
 </databaseChangeLog>

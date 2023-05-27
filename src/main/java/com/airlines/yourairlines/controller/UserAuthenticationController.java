@@ -24,7 +24,7 @@ public class UserAuthenticationController {
     }
 
     @PutMapping("/login")
-    public AuthResponse login(@RequestBody AuthRequest authRequest) {
+    public AuthResponse login(@RequestBody @Validated AuthRequest authRequest) {
         return authService.login(authRequest);
     }
 

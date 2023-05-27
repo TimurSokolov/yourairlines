@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 @RestController
 @RequestMapping("/plane")
 public class PlaneController extends CrudController<Plane, PlaneDto> {
@@ -46,5 +49,11 @@ public class PlaneController extends CrudController<Plane, PlaneDto> {
     @GetMapping("/getplanestate/{id}")
     public PlaneState getCoordinates(@PathVariable Long id) {
         return planeService.getPlaneState(id);
+    }
+
+    @GetMapping("/searchsuitableplanes")
+    public List<Plane> searchSuitablePlanes(@RequestParam Long departureAirportId, Long arrivalAirportId, LocalDateTime departureTime) {
+
+        return planeService.findSuitablePlanes(departureAirportId, arrivalAirportId, departureTime);
     }
 }

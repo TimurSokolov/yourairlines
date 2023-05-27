@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -48,34 +47,12 @@ public class FlightService extends CrudService<Flight> implements IFlightService
         return (int) (((double) flightDistance / (double) plane.getCruiseSpeed()) * 60);
     }
 
-
-    private Integer calcFlightDistance(Airport departureAirport, Airport arrivalAirport) {
+    @Override
+    public Integer calcFlightDistance(Airport departureAirport, Airport arrivalAirport) {
         if (departureAirport == arrivalAirport) {
             return 0;
         }
         return mapService.calcDistanceBetweenPoints(departureAirport, arrivalAirport).intValue();
-    }
-
-
-    public ArrayList<Plane> getSuitablePlanes(Long departureAirportId, Long arrivalAirportId, LocalDateTime departureTime) {
-        Airport departureAirport = airportService.get(departureAirportId);
-        Airport arrivalAirport = airportService.get(arrivalAirportId);
-        ArrayList<Plane> suitablePlanes = planeService.findByMaxFlightRangeGreaterThanEqualAndEndOfReserveTimeBefore(calcFlightDistance(departureAirport, arrivalAirport), departureTime);
-
-        return filterPlanesWithHop(suitablePlanes, departureAirport, departureTime);
-    }
-
-    private ArrayList<Plane> filterPlanesWithHop(ArrayList<Plane> planes, Airport departureAirport, LocalDateTime departureTime) {
-
-        return planes.stream().filter(plane -> plane.getMaxFlightRange() >= calcFlightDistance(departureAirport, calcLastReservedAirport(plane)))
-                .filter(plane -> departureTime.isAfter(calcLastReservedArrivalTime(plane).plusHours(calcFlightDuration(departureAirport, calcLastReservedAirport(plane), plane))))
-                .collect(Collectors.toCollection(ArrayList::new));
-    }
-
-
-    private Airport calcLastReservedAirport(Plane plane) {
-        ArrayList<Flight> reservedFlights = flightRepository.findByReservedPlaneId(plane.getId());
-        return airportService.get(reservedFlights.stream().max(Comparator.comparing(Flight::getArrivalTime)).get().getDepartureAirportId()); //todo как правильно доставать в стриме?
     }
 
     public LocalDateTime calcLastReservedArrivalTime(Plane plane) {

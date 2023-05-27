@@ -6,9 +6,9 @@ import lombok.Data;
 @Data
 public class AuthRequest {
 
-    @NotNull
+    @NotNull(message = "Поле 'Логин' обязательно для заполнения")
     private String login;
 
-    @NotNull
+    @NotNull(message = "Поле 'Пароль' обязательно для заполнения")
     private String password;
 }

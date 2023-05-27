@@ -2,19 +2,13 @@ package com.airlines.yourairlines.controller;
 
 import com.airlines.yourairlines.dto.FlightDto;
 import com.airlines.yourairlines.entity.Flight;
-import com.airlines.yourairlines.entity.Plane;
 import com.airlines.yourairlines.mapper.EntityMapper;
 import com.airlines.yourairlines.mapper.FlightMapper;
 import com.airlines.yourairlines.service.ICrudService;
 import com.airlines.yourairlines.service.IFlightService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 @RestController
 @RequestMapping("/flight")
@@ -33,11 +27,4 @@ public class FlightController extends CrudController<Flight, FlightDto> {
     public EntityMapper<Flight, FlightDto> getMapper() {
         return flightMapper;
     }
-
-    @GetMapping("/searchsuitableplanes")
-    public List<Plane> searchSuitablePlanes(@RequestParam Long departureAirportId, Long arrivalAirportId, LocalDateTime departureTime) {
-
-        return flightService.getSuitablePlanes(departureAirportId, arrivalAirportId, departureTime);
-    }
-
 }
