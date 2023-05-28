@@ -80,11 +80,15 @@ public class FlightService extends CrudService<Flight> implements IFlightService
 
     @Override
     public Flight save(Flight flightToSave) {
+
+        Airport departureAirport = airportService.get(flightToSave.getDepartureAirportId());
+        Airport arrivalAirport = airportService.get(flightToSave.getArrivalAirportId());
+        Plane reservedPlane = planeService.get(flightToSave.getReservedPlaneId());
+        Integer flightDuration = calcFlightDuration(departureAirport, arrivalAirport, reservedPlane);
+
         if (flightToSave.getDepartureTime().isBefore(dayChangeService.getCurrentDate())) {
             throw new ValidationException("Указано время отправления раньше текущего");
         }
-
-        Plane reservedPlane = planeService.get(flightToSave.getReservedPlaneId());
 
         if (flightToSave.getDepartureTime().isBefore(calcLastReservedArrivalTime(reservedPlane))) {
             throw new ValidationException(String.format("Данный борт уже зарезервирован на это время, " +
@@ -96,25 +100,23 @@ public class FlightService extends CrudService<Flight> implements IFlightService
             throw new ValidationException("Этого борта нет или не будет в этом аэропорту в данное время");
         }
 
-        Airport departureAirport = airportService.get(flightToSave.getDepartureAirportId());
-        Airport arrivalAirport = airportService.get(flightToSave.getArrivalAirportId());
-        Plane plane = planeService.get(flightToSave.getReservedPlaneId());
+        if (reservedPlane.getMaxFlightRange() < flightDuration) {
+            throw new ValidationException(String.format("Этого борта не может выполнить перелёт длиной %s", flightDuration));
+        }
 
-        Integer flightDuration = calcFlightDuration(departureAirport, arrivalAirport, plane);
+
         flightToSave.setArrivalTime(flightToSave.getDepartureTime().plusMinutes(flightDuration));
 
         if (flightToSave.getDepartureTime().isAfter(dayChangeService.getCurrentDate())
                 && flightToSave.getArrivalTime().isBefore(eventLogService.calcEndTimeOfSync())) {
 
             eventLogService.syncEventLog();
-
         }
 
         if (flightToSave.getArrivalTime().isAfter(dayChangeService.getCurrentDate())
                 && flightToSave.getArrivalTime().isBefore(eventLogService.calcEndTimeOfSync())) {
 
             eventLogService.syncEventLog();
-
         }
         return flightRepository.save(flightToSave);
     }

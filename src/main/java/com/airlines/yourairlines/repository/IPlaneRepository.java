@@ -22,4 +22,12 @@ public interface IPlaneRepository extends IBaseRepository<Plane> {
                                         @Param("time") LocalDateTime requiredDateTime,
                                         @Param("airport") Long departureAirportId);
 
+    @Query(
+            value = "SELECT (:time, INTERVAL '0 sec') OVERLAPS (departure_time, arrival_time) FROM " +
+                    "(SELECT * FROM flight " +
+                    "WHERE reserved_plane_id = :plane) AS FlightsByReservedPlane",
+            nativeQuery = true)
+    ArrayList<Boolean> checkPlaneInFlightNow(@Param("plane") Long planeId,
+                                             @Param("time") LocalDateTime currentDate);
+
 }

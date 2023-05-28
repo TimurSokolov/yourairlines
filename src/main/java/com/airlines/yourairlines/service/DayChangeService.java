@@ -29,7 +29,7 @@ public class DayChangeService {
     }
 
     public void displayCurrentDate() {
-        currentDate = currentDate.plusHours(increaseHour).minusMinutes(increaseMinutes);
+        currentDate = currentDate.plusHours(increaseHour).plusMinutes(increaseMinutes);
         log.info("Current date: {}", currentDate);
     }
 

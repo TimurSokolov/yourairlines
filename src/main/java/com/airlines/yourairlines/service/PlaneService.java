@@ -41,26 +41,36 @@ public class PlaneService extends CrudService<Plane> implements IPlaneService {
     }
 
     public PlaneState getPlaneState(Long planeId) {
-        Plane plane = planeRepository.findById(planeId).orElseThrow(() -> new NotFoundException(String.format("Борт с id %s не найден", planeId)));
-        if (flightService.findByReservedPlaneId(plane.getId()).stream().anyMatch(s -> s.getDepartureTime().isBefore(dayChangeService.getCurrentDate()) && s.getArrivalTime().isAfter(dayChangeService.getCurrentDate()))) { //todo корректно обращаться сразу в flightRepository?
+
+        Plane plane = findById(planeId);
+
+        if (isPlaneInFlightNow(plane)) {
             return PlaneState.IN_FLIGHT;
-        } else if (flightService.calcLastReservedArrivalTime(plane).isBefore(dayChangeService.getCurrentDate())) {
+        } else if (isPlaneReservedOnFuture(plane)) {
             return PlaneState.NOT_RESERVED;
         }
 
         return PlaneState.RESERVED;
     }
 
+    private boolean isPlaneInFlightNow(Plane plane) {
+        ArrayList<Boolean> arrayList = planeRepository.checkPlaneInFlightNow(plane.getId(), dayChangeService.getCurrentDate());
+        return arrayList.stream().anyMatch(s -> s.equals(true));
+    }
+
+    private boolean isPlaneReservedOnFuture(Plane plane) {
+        return flightService.calcLastReservedArrivalTime(plane).isBefore(dayChangeService.getCurrentDate());
+    }
+
     public String getSideNumberById(Long id) {
-        Optional<Plane> planeOpt = planeRepository.findById(id);
-        Plane plane = planeOpt.orElseThrow(() -> new NotFoundException(String.format("Борт с id = %s не найден", id)));
-        return plane.getSideNumber();
+        return findById(id).getSideNumber();
     }
 
     @Override
     public ArrayList<Plane> findSuitablePlanes(Long departureAirportId, Long arrivalAirportId, LocalDateTime departureTime) {
         Airport departureAirport = airportService.findById(departureAirportId);
         Airport arrivalAirport = airportService.findById(arrivalAirportId);
+
         Integer flightDistance = flightService.calcFlightDistance(departureAirport, arrivalAirport);
 
         return planeRepository.findSuitablePlanes(flightDistance, departureTime, departureAirportId);
@@ -88,8 +98,7 @@ public class PlaneService extends CrudService<Plane> implements IPlaneService {
     public void delete(Long id) {
         ArrayList<Flight> flightsToDelete = flightService.findByReservedPlaneId(id);
         flightsToDelete.stream().map(LongIdEntity::getId).forEach(flightId -> flightService.delete(flightId));
-        Optional<Plane> planeOptional = planeRepository.findById(id);
-        Plane plane = planeOptional.orElseThrow(() -> new NotFoundException(String.format("Борт с id = %s не найден", id)));
+        Plane plane = findById(id);
         planeRepository.delete(plane);
     }
 }
