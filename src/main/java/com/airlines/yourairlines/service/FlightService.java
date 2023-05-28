@@ -3,6 +3,7 @@ package com.airlines.yourairlines.service;
 import com.airlines.yourairlines.entity.Airport;
 import com.airlines.yourairlines.entity.Flight;
 import com.airlines.yourairlines.entity.Plane;
+import com.airlines.yourairlines.exception.ValidationException;
 import com.airlines.yourairlines.repository.IBaseRepository;
 import com.airlines.yourairlines.repository.IFlightRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Comparator;
 
 @Slf4j
 @Service
@@ -56,8 +56,11 @@ public class FlightService extends CrudService<Flight> implements IFlightService
     }
 
     public LocalDateTime calcLastReservedArrivalTime(Plane plane) {
-        ArrayList<Flight> reservedFlights = flightRepository.findByReservedPlaneId(plane.getId());
-        return reservedFlights.stream().max(Comparator.comparing(Flight::getArrivalTime)).get().getArrivalTime(); //todo извлечь безопасно
+        return calcLastReservedFlight(plane).getArrivalTime();
+    }
+
+    private Flight calcLastReservedFlight(Plane plane) {
+        return flightRepository.findLastReservedFlight(plane.getId());
     }
 
     @Override
@@ -77,6 +80,21 @@ public class FlightService extends CrudService<Flight> implements IFlightService
 
     @Override
     public Flight save(Flight flightToSave) {
+        if (flightToSave.getDepartureTime().isBefore(dayChangeService.getCurrentDate())) {
+            throw new ValidationException("Указано время отправления раньше текущего");
+        }
+
+        Plane reservedPlane = planeService.get(flightToSave.getReservedPlaneId());
+
+        if (flightToSave.getDepartureTime().isBefore(calcLastReservedArrivalTime(reservedPlane))) {
+            throw new ValidationException(String.format("Данный борт уже зарезервирован на это время, " +
+                            "выберите другой борт или время позже чем %s"
+                    , calcLastReservedArrivalTime(reservedPlane)));
+        }
+
+        if (!(calcLastReservedFlight(reservedPlane).getArrivalAirportId().equals(flightToSave.getDepartureAirportId()))) {
+            throw new ValidationException("Этого борта нет или не будет в этом аэропорту в данное время");
+        }
 
         Airport departureAirport = airportService.get(flightToSave.getDepartureAirportId());
         Airport arrivalAirport = airportService.get(flightToSave.getArrivalAirportId());

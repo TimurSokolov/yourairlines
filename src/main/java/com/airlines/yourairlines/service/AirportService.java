@@ -27,7 +27,7 @@ public class AirportService extends CrudService<Airport> implements IAirportServ
 
     public Airport findById(Long id) {
         Optional<Airport> airportOptional = airportRepository.findById(id);
-        return airportOptional.orElseThrow(() -> new NotFoundException("Аэропорт с id = " + id + " не найден"));
+        return airportOptional.orElseThrow(() -> new NotFoundException(String.format("Аэропорт с id = %s не найден", id)));
     }
 
     @Override
@@ -42,7 +42,7 @@ public class AirportService extends CrudService<Airport> implements IAirportServ
 
     public String getAirportNameById(Long id) {
         Optional<Airport> airportOpt = airportRepository.findById(id);
-        Airport airport = airportOpt.orElseThrow(() -> new NotFoundException("Аэропорт с id = " + id + " не найден"));
+        Airport airport = airportOpt.orElseThrow(() -> new NotFoundException(String.format("Аэропорт с id = %s не найден", id)));
         return airport.getName();
     }
 }

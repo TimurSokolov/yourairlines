@@ -41,7 +41,7 @@ public class PlaneService extends CrudService<Plane> implements IPlaneService {
     }
 
     public PlaneState getPlaneState(Long planeId) {
-        Plane plane = planeRepository.findById(planeId).orElseThrow(() -> new NotFoundException("Самолёт с id " + planeId + " не найден"));
+        Plane plane = planeRepository.findById(planeId).orElseThrow(() -> new NotFoundException(String.format("Борт с id %s не найден", planeId)));
         if (flightService.findByReservedPlaneId(plane.getId()).stream().anyMatch(s -> s.getDepartureTime().isBefore(dayChangeService.getCurrentDate()) && s.getArrivalTime().isAfter(dayChangeService.getCurrentDate()))) { //todo корректно обращаться сразу в flightRepository?
             return PlaneState.IN_FLIGHT;
         } else if (flightService.calcLastReservedArrivalTime(plane).isBefore(dayChangeService.getCurrentDate())) {
@@ -53,7 +53,7 @@ public class PlaneService extends CrudService<Plane> implements IPlaneService {
 
     public String getSideNumberById(Long id) {
         Optional<Plane> planeOpt = planeRepository.findById(id);
-        Plane plane = planeOpt.orElseThrow(() -> new NotFoundException("Борт с id = " + id + " не найден"));
+        Plane plane = planeOpt.orElseThrow(() -> new NotFoundException(String.format("Борт с id = %s не найден", id)));
         return plane.getSideNumber();
     }
 
@@ -68,7 +68,7 @@ public class PlaneService extends CrudService<Plane> implements IPlaneService {
 
     public Plane findById(Long id) {
         Optional<Plane> planeOptional = planeRepository.findById(id);
-        return planeOptional.orElseThrow(() -> new NotFoundException("Борт с id = " + id + " не найден"));
+        return planeOptional.orElseThrow(() -> new NotFoundException(String.format("Борт с id = %s не найден", id)));
     }
 
     @Override
@@ -89,7 +89,7 @@ public class PlaneService extends CrudService<Plane> implements IPlaneService {
         ArrayList<Flight> flightsToDelete = flightService.findByReservedPlaneId(id);
         flightsToDelete.stream().map(LongIdEntity::getId).forEach(flightId -> flightService.delete(flightId));
         Optional<Plane> planeOptional = planeRepository.findById(id);
-        Plane plane = planeOptional.orElseThrow(() -> new NotFoundException("Борт с id = " + id + " не найден"));
+        Plane plane = planeOptional.orElseThrow(() -> new NotFoundException(String.format("Борт с id = %s не найден", id)));
         planeRepository.delete(plane);
     }
 }

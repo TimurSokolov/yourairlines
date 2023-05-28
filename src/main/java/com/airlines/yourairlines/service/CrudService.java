@@ -22,7 +22,7 @@ public abstract class CrudService<T extends VersionedEntity> implements ICrudSer
 
     @Override
     public T get(Long id) {
-        return getRepository().findById(id).orElseThrow(() -> new NotFoundException("Объект с id " + id + " не найден"));
+        return getRepository().findById(id).orElseThrow(() -> new NotFoundException(String.format("Объект с id = %s не найден", id)));
     }
 
     @Override

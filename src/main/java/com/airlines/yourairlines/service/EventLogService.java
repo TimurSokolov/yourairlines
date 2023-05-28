@@ -69,15 +69,17 @@ public class EventLogService {
     }
 
     private String fillDepartureEventString(Flight flight) {
-        return "Борт " + planeService.getSideNumberById(flight.getReservedPlaneId())
-                + " вылетел аэропорта " + airportService.getAirportNameById(flight.getDepartureAirportId())
-                + " в аэропорт " + airportService.getAirportNameById(flight.getDepartureAirportId());
+        return String.format("Борт %s вылетел из аэропорта  %s в аэропорт  %s"
+                , planeService.getSideNumberById(flight.getReservedPlaneId())
+                , airportService.getAirportNameById(flight.getDepartureAirportId())
+                , airportService.getAirportNameById(flight.getArrivalAirportId()));
     }
 
     private String fillArrivalEventString(Flight flight) {
-        return "Борт " + planeService.getSideNumberById(flight.getReservedPlaneId())
-                + " прилетел в аэропорт " + airportService.getAirportNameById(flight.getDepartureAirportId())
-                + " из аэропорта " + airportService.getAirportNameById(flight.getDepartureAirportId());
+        return String.format("Борт %s прилетел в аэропорт %s из аэропорта %s "
+                , planeService.getSideNumberById(flight.getReservedPlaneId())
+                , airportService.getAirportNameById(flight.getArrivalAirportId())
+                , airportService.getAirportNameById(flight.getDepartureAirportId()));
     }
 
     public LocalDateTime calcEndTimeOfSync() {
