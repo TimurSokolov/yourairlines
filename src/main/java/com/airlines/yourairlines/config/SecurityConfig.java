@@ -1,6 +1,5 @@
 package com.airlines.yourairlines.config;
 
-
 import com.airlines.yourairlines.filter.AuthFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -16,22 +15,26 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final AuthFilter authFilter;
+  private final AuthFilter authFilter;
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
-                .httpBasic().disable()
-                .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeHttpRequests(
-                        authz -> authz
-                                .requestMatchers("/login", "/register").permitAll()
-                                .anyRequest().authenticated()
-                                .and()
-                                .addFilterAfter(authFilter, UsernamePasswordAuthenticationFilter.class)
-                ).build();
-    }
-
+  @Bean
+  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    return http.httpBasic()
+        .disable()
+        .csrf()
+        .disable()
+        .sessionManagement()
+        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .and()
+        .authorizeHttpRequests(
+            authz ->
+                authz
+                    .requestMatchers("/login", "/register")
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated()
+                    .and()
+                    .addFilterAfter(authFilter, UsernamePasswordAuthenticationFilter.class))
+        .build();
+  }
 }

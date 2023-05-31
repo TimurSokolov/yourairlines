@@ -13,18 +13,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/flight")
 public class FlightController extends CrudController<Flight, FlightDto> {
-    @Autowired
-    private IFlightService flightService;
-    @Autowired
-    private FlightMapper flightMapper;
+  @Autowired private IFlightService flightService;
+  @Autowired private FlightMapper flightMapper;
 
-    @Override
-    public ICrudService<Flight> getService() {
-        return flightService;
-    }
+  @Override
+  public ICrudService<Flight> getService() {
+    return flightService;
+  }
 
-    @Override
-    public EntityMapper<Flight, FlightDto> getMapper() {
-        return flightMapper;
-    }
+  @Override
+  public EntityMapper<Flight, FlightDto> getMapper() {
+    return flightMapper;
+  }
 }

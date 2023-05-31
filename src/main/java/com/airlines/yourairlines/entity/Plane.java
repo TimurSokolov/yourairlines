@@ -8,11 +8,11 @@ import lombok.Setter;
 @Setter
 @Entity
 public class Plane extends VersionedEntity {
-    private String sideNumber;
-    private String brand;
-    private String model;
-    private Integer maxFlightRange;
-    private Integer maxNumberOfPeople;
-    private Integer fuelConsumption;
-    private Integer cruiseSpeed;
+  private String sideNumber;
+  private String brand;
+  private String model;
+  private Integer maxFlightRange;
+  private Integer maxNumberOfPeople;
+  private Integer fuelConsumption;
+  private Integer cruiseSpeed;
 }

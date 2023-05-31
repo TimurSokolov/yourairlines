@@ -2,18 +2,18 @@ package com.airlines.yourairlines.service;
 
 import com.airlines.yourairlines.entity.Plane;
 import com.airlines.yourairlines.enums.PlaneState;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public interface IPlaneService extends ICrudService<Plane> {
-    PlaneState getPlaneState(Long planeId);
+  PlaneState getPlaneState(Long planeId);
 
-    String getSideNumberById(Long id);
+  String getSideNumberById(Long id);
 
-    ArrayList<Plane> findSuitablePlanes(Long departureAirportId, Long arrivalAirportId, LocalDateTime requiredDateTime);
+  ArrayList<Plane> findSuitablePlanes(
+      Long departureAirportId, Long arrivalAirportId, LocalDateTime requiredDateTime);
 
-    Plane findById(Long id);
+  Plane findById(Long id);
 
-    Plane save(Plane planeToSave, Long startAirportId);
+  Plane save(Plane planeToSave, Long startAirportId);
 }

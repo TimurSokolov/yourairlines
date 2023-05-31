@@ -4,5 +4,4 @@ import com.airlines.yourairlines.entity.Client;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface IClientRepository extends IPersonRepository<Client> {
-}
+public interface IClientRepository extends IPersonRepository<Client> {}

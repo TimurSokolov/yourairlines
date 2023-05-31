@@ -8,15 +8,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class EmployeeService extends PersonService<Employee> implements IEmployeeService {
-    @Autowired
-    private IEmployeeRepository employeeRepository;
+  @Autowired private IEmployeeRepository employeeRepository;
 
-    @Override
-    public IPersonRepository<Employee> getRepository() {
-        return employeeRepository;
-    }
+  @Override
+  public IPersonRepository<Employee> getRepository() {
+    return employeeRepository;
+  }
 
-    @Override
-    protected void validate(Employee entity) {
-    }
+  @Override
+  protected void validate(Employee entity) {}
 }

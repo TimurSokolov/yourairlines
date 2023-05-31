@@ -9,6 +9,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public abstract class VersionedEntity extends LongIdEntity {
-    @Version
-    private Long version;
+  @Version private Long version;
 }

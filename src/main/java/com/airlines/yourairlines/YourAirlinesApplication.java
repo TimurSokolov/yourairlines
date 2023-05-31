@@ -12,8 +12,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class YourAirlinesApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(YourAirlinesApplication.class, args);
-    }
-
+  public static void main(String[] args) {
+    SpringApplication.run(YourAirlinesApplication.class, args);
+  }
 }

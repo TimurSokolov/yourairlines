@@ -6,9 +6,9 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public abstract class PlaneMapper implements EntityMapper<Plane, PlaneDto> {
-    @Override
-    public abstract Plane mapToEntity(PlaneDto dto);
+  @Override
+  public abstract Plane mapToEntity(PlaneDto dto);
 
-    @Override
-    public abstract PlaneDto mapToDto(Plane entity);
+  @Override
+  public abstract PlaneDto mapToDto(Plane entity);
 }

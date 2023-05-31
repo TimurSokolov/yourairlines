@@ -6,8 +6,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ApplicationConfiguration {
 
-    @Bean
-    public String string() {
-        return "String";
-    }
+  @Bean
+  public String string() {
+    return "String";
+  }
 }

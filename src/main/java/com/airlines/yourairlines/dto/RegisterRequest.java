@@ -8,12 +8,18 @@ import lombok.Data;
 @Data
 public class RegisterRequest {
 
-    @NotNull(message = "Поле 'Имя' обязательно для заполнения", groups = {Create.class, Update.class})
-    private String name;
+  @NotNull(
+      message = "Поле 'Имя' обязательно для заполнения",
+      groups = {Create.class, Update.class})
+  private String name;
 
-    @NotNull(message = "Поле 'Логин' обязательно для заполнения", groups = {Create.class, Update.class})
-    private String login;
+  @NotNull(
+      message = "Поле 'Логин' обязательно для заполнения",
+      groups = {Create.class, Update.class})
+  private String login;
 
-    @NotNull(message = "Поле 'Пароль' обязательно для заполнения", groups = {Create.class, Update.class})
-    private String password;
+  @NotNull(
+      message = "Поле 'Пароль' обязательно для заполнения",
+      groups = {Create.class, Update.class})
+  private String password;
 }

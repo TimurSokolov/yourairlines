@@ -13,18 +13,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/employee")
 public class EmployeeController extends PersonController<Employee, EmployeeDto> {
-    @Autowired
-    private IEmployeeService employeeService;
-    @Autowired
-    private EmployeeMapper employeeMapper;
+  @Autowired private IEmployeeService employeeService;
+  @Autowired private EmployeeMapper employeeMapper;
 
-    @Override
-    public IPersonService<Employee> getService() {
-        return employeeService;
-    }
+  @Override
+  public IPersonService<Employee> getService() {
+    return employeeService;
+  }
 
-    @Override
-    public EntityMapper<Employee, EmployeeDto> getMapper() {
-        return employeeMapper;
-    }
+  @Override
+  public EntityMapper<Employee, EmployeeDto> getMapper() {
+    return employeeMapper;
+  }
 }

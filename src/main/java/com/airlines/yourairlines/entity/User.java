@@ -11,8 +11,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class User extends VersionedEntity {
-
-    private String password;
-    private String login;
-    private Role role = Role.ADMIN;
+  private String password;
+  private String login;
+  private Role role = Role.ADMIN;
 }

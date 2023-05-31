@@ -13,18 +13,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/city")
 public class CityController extends CrudController<City, CityDto> {
-    @Autowired
-    private ICityService cityService;
-    @Autowired
-    private CityMapper cityMapper;
+  @Autowired private ICityService cityService;
+  @Autowired private CityMapper cityMapper;
 
-    @Override
-    public ICrudService<City> getService() {
-        return cityService;
-    }
+  @Override
+  public ICrudService<City> getService() {
+    return cityService;
+  }
 
-    @Override
-    public EntityMapper<City, CityDto> getMapper() {
-        return cityMapper;
-    }
+  @Override
+  public EntityMapper<City, CityDto> getMapper() {
+    return cityMapper;
+  }
 }

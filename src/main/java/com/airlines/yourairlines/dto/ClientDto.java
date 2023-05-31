@@ -11,9 +11,11 @@ import lombok.Setter;
 @Setter
 @Getter
 public class ClientDto extends PersonDto {
-    @Email
-    private String email;
-    private String cardNumber;
-    @NotNull(message = "Поле 'Домашний аэропорт' обязательно для заполнения", groups = {Create.class, Update.class})
-    private Airport homeAirport;
+  @Email private String email;
+  private String cardNumber;
+
+  @NotNull(
+      message = "Поле 'Домашний аэропорт' обязательно для заполнения",
+      groups = {Create.class, Update.class})
+  private Airport homeAirport;
 }

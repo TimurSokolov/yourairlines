@@ -4,5 +4,4 @@ import com.airlines.yourairlines.entity.Airport;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface IAirportRepository extends IBaseRepository<Airport> {
-}
+public interface IAirportRepository extends IBaseRepository<Airport> {}

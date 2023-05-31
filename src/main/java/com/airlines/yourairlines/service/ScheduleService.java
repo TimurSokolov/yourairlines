@@ -13,20 +13,17 @@ import org.springframework.stereotype.Service;
 @Setter
 public class ScheduleService {
 
+  @Autowired private EventLogService eventLogService;
+  @Autowired private DayChangeService dayChangeService;
 
-    @Autowired
-    private EventLogService eventLogService;
-    @Autowired
-    private DayChangeService dayChangeService;
+  @Scheduled(fixedDelay = 1000)
+  private void makeScheduledDisplayedTasks() {
+    dayChangeService.displayCurrentDate();
+    eventLogService.displayEvent();
+  }
 
-    @Scheduled(fixedDelay = 1000)
-    private void makeScheduledDisplayedTasks() {
-        dayChangeService.displayCurrentDate();
-        eventLogService.displayEvent();
-    }
-
-    @Scheduled(fixedDelayString = "${frequency.of.sync}000")
-    private void makeScheduledTasks() {
-        eventLogService.syncEventLog();
-    }
+  @Scheduled(fixedDelayString = "${frequency.of.sync}000")
+  private void makeScheduledTasks() {
+    eventLogService.syncEventLog();
+  }
 }

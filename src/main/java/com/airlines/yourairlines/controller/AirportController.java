@@ -13,18 +13,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/airport")
 public class AirportController extends CrudController<Airport, AirportDto> {
-    @Autowired
-    private IAirportService airportService;
-    @Autowired
-    private AirportMapper airportMapper;
+  @Autowired private IAirportService airportService;
+  @Autowired private AirportMapper airportMapper;
 
-    @Override
-    public ICrudService<Airport> getService() {
-        return airportService;
-    }
+  @Override
+  public ICrudService<Airport> getService() {
+    return airportService;
+  }
 
-    @Override
-    public EntityMapper<Airport, AirportDto> getMapper() {
-        return airportMapper;
-    }
+  @Override
+  public EntityMapper<Airport, AirportDto> getMapper() {
+    return airportMapper;
+  }
 }

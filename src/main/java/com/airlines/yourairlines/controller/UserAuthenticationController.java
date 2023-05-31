@@ -13,30 +13,26 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class UserAuthenticationController {
-    @Autowired
-    public UserDetailsContextService userDetailsContextService;
-    @Autowired
-    private IAuthService authService;
+  @Autowired public UserDetailsContextService userDetailsContextService;
+  @Autowired private IAuthService authService;
 
-    @PostMapping("/register")
-    public AuthResponse register(@RequestBody @Validated RegisterRequest registerRequest) {
-        return authService.register(registerRequest);
-    }
+  @PostMapping("/register")
+  public AuthResponse register(@RequestBody @Validated RegisterRequest registerRequest) {
+    return authService.register(registerRequest);
+  }
 
-    @PutMapping("/login")
-    public AuthResponse login(@RequestBody @Validated AuthRequest authRequest) {
-        return authService.login(authRequest);
-    }
+  @PutMapping("/login")
+  public AuthResponse login(@RequestBody @Validated AuthRequest authRequest) {
+    return authService.login(authRequest);
+  }
 
-    @GetMapping("/currentuser")
-    public UserDetails getCurrentUserDetails() {
-        return userDetailsContextService.getUserDetails();
-    }
+  @GetMapping("/currentuser")
+  public UserDetails getCurrentUserDetails() {
+    return userDetailsContextService.getUserDetails();
+  }
 
-    @GetMapping("/logout")
-    public void logout(HttpSession httpSession) {
-        httpSession.invalidate();
-    }
-
-
+  @GetMapping("/logout")
+  public void logout(HttpSession httpSession) {
+    httpSession.invalidate();
+  }
 }

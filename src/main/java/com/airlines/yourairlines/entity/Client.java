@@ -11,12 +11,12 @@ import lombok.Setter;
 @Setter
 @Entity
 public class Client extends Person {
-    private String email;
-    private String cardNumber;
+  private String email;
+  private String cardNumber;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "airport_id", nullable = false)
-    private Airport homeAirport;
+  @ManyToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "airport_id", nullable = false)
+  private Airport homeAirport;
 
-    private Long user_id;
+  private Long user_id;
 }

@@ -6,9 +6,9 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public abstract class CityMapper implements EntityMapper<City, CityDto> {
-    @Override
-    public abstract City mapToEntity(CityDto dto);
+  @Override
+  public abstract City mapToEntity(CityDto dto);
 
-    @Override
-    public abstract CityDto mapToDto(City entity);
+  @Override
+  public abstract CityDto mapToDto(City entity);
 }

@@ -6,9 +6,9 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public abstract class EmployeeMapper implements EntityMapper<Employee, EmployeeDto> {
-    @Override
-    public abstract Employee mapToEntity(EmployeeDto dto);
+  @Override
+  public abstract Employee mapToEntity(EmployeeDto dto);
 
-    @Override
-    public abstract EmployeeDto mapToDto(Employee entity);
+  @Override
+  public abstract EmployeeDto mapToDto(Employee entity);
 }

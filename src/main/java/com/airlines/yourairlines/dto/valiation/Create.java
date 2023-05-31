@@ -1,4 +1,3 @@
 package com.airlines.yourairlines.dto.valiation;
 
-public interface Create {
-}
+public interface Create {}

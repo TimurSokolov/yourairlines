@@ -6,6 +6,7 @@
 
 
     <include file="scripts/change-plane-table.xml" relativeToChangelogFile="true"/>
+    <include file="scripts/add-unique-constraints.xml" relativeToChangelogFile="true"/>
 
 
 </databaseChangeLog>

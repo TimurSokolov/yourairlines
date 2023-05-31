@@ -8,16 +8,16 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * Абстрактная DTO, содержащая только ID
- */
-
+/** Абстрактная DTO, содержащая только ID */
 @Getter
 @Setter
 @EqualsAndHashCode
 public abstract class LongIdDto {
-    @NotNull(message = "Поле 'id' обязательно для заполнения", groups = {Update.class})
-    @Null(message = "Поле 'id' не должно быть заполнено", groups = {Create.class})
-    private Long id;
-
+  @NotNull(
+      message = "Поле 'id' обязательно для заполнения",
+      groups = {Update.class})
+  @Null(
+      message = "Поле 'id' не должно быть заполнено",
+      groups = {Create.class})
+  private Long id;
 }

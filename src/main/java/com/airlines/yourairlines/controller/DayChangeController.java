@@ -10,12 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/daychange")
 public class DayChangeController {
-    @Autowired
-    DayChangeService dayChangeService;
+  @Autowired DayChangeService dayChangeService;
 
-    @GetMapping("/changecurrentdaterate")
-    public String changeCurrentDateRate(@RequestParam Integer increaseHour, Integer increaseMinute) {
-        dayChangeService.changeCurrentDateRate(increaseHour, increaseMinute);
-        return "Прибавляется по " + increaseHour + " ч. и " + increaseMinute + " мин.";
-    }
+  @GetMapping("/changecurrentdaterate")
+  public String changeCurrentDateRate(@RequestParam Integer increaseHour, Integer increaseMinute) {
+    dayChangeService.changeCurrentDateRate(increaseHour, increaseMinute);
+    return "Прибавляется по " + increaseHour + " ч. и " + increaseMinute + " мин.";
+  }
 }

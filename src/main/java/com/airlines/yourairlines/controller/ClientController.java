@@ -13,18 +13,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/client")
 public class ClientController extends PersonController<Client, ClientDto> {
-    @Autowired
-    private IClientService clientService;
-    @Autowired
-    private ClientMapper clientMapper;
+  @Autowired private IClientService clientService;
+  @Autowired private ClientMapper clientMapper;
 
-    @Override
-    public IPersonService<Client> getService() {
-        return clientService;
-    }
+  @Override
+  public IPersonService<Client> getService() {
+    return clientService;
+  }
 
-    @Override
-    public EntityMapper<Client, ClientDto> getMapper() {
-        return clientMapper;
-    }
+  @Override
+  public EntityMapper<Client, ClientDto> getMapper() {
+    return clientMapper;
+  }
 }

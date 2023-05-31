@@ -1,0 +1,42 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="Andrei_Shamshurin" id="add-unique-constraints">
+        <addUniqueConstraint
+                tableName="airport"
+                columnNames="name"
+                constraintName="unique_airport_name"/>
+
+        <addUniqueConstraint
+                tableName="airport"
+                columnNames="id"
+                constraintName="unique_airport_id"/>
+
+        <addUniqueConstraint
+                tableName="city"
+                columnNames="name"
+                constraintName="unique_city_name"/>
+
+        <addUniqueConstraint
+                tableName="city"
+                columnNames="id"
+                constraintName="unique_city_id"/>
+
+        <addUniqueConstraint
+                tableName="flight"
+                columnNames="id"
+                constraintName="unique_flight_id"/>
+
+        <addUniqueConstraint
+                tableName="plane"
+                columnNames="id"
+                constraintName="unique_plane_id"/>
+
+        <addUniqueConstraint
+                tableName="plane"
+                columnNames="side_number"
+                constraintName="unique_sideNumber_id"/>
+    </changeSet>
+</databaseChangeLog>

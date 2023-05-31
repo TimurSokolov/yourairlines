@@ -5,17 +5,16 @@ import org.springframework.security.core.GrantedAuthority;
 
 @RequiredArgsConstructor
 public enum Role implements GrantedAuthority {
+  ADMIN("ADMIN"),
 
-    ADMIN("ADMIN"),
+  SELLER("EMPLOYEE"),
 
-    SELLER("EMPLOYEE"),
+  BUYER("CLIENT");
 
-    BUYER("CLIENT");
+  private final String value;
 
-    private final String value;
-
-    @Override
-    public String getAuthority() {
-        return value;
-    }
+  @Override
+  public String getAuthority() {
+    return value;
+  }
 }

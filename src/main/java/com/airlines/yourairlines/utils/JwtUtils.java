@@ -6,11 +6,10 @@ import io.jsonwebtoken.Claims;
 
 public class JwtUtils {
 
-    public static UserDetails generate(Claims claims) {
-        final UserDetails userDetails = new UserDetails();
-        userDetails.setRole(Role.valueOf(claims.get("roles", String.class)));
-        userDetails.setName(claims.get("name", String.class));
-        return userDetails;
-    }
-
+  public static UserDetails generate(Claims claims) {
+    final UserDetails userDetails = new UserDetails();
+    userDetails.setRole(Role.valueOf(claims.get("roles", String.class)));
+    userDetails.setName(claims.get("name", String.class));
+    return userDetails;
+  }
 }

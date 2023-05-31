@@ -6,9 +6,9 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public abstract class FlightMapper implements EntityMapper<Flight, FlightDto> {
-    @Override
-    public abstract Flight mapToEntity(FlightDto dto);
+  @Override
+  public abstract Flight mapToEntity(FlightDto dto);
 
-    @Override
-    public abstract FlightDto mapToDto(Flight entity);
+  @Override
+  public abstract FlightDto mapToDto(Flight entity);
 }

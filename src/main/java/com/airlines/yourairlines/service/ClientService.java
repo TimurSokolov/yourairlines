@@ -8,17 +8,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ClientService extends PersonService<Client> implements IClientService {
-    @Autowired
-    private IClientRepository clientRepository;
+  @Autowired private IClientRepository clientRepository;
 
-    @Override
-    public IPersonRepository<Client> getRepository() {
-        return clientRepository;
-    }
+  @Override
+  public IPersonRepository<Client> getRepository() {
+    return clientRepository;
+  }
 
-    @Override
-    protected void validate(Client entity) {
-    }
-
-
+  @Override
+  protected void validate(Client entity) {}
 }

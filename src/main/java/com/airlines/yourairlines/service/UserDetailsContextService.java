@@ -14,5 +14,5 @@ import org.springframework.web.context.WebApplicationContext;
 @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class UserDetailsContextService implements IUserDetailsContextService {
 
-    private UserDetails userDetails;
+  private UserDetails userDetails;
 }

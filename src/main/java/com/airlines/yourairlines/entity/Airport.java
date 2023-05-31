@@ -11,10 +11,9 @@ import lombok.ToString;
 @ToString
 public class Airport extends VersionedEntity {
 
-    private String name;
-    private String timezone;
-    private String lat;
-    private String lon;
-    private Long cityId;
-
+  private String name;
+  private String timezone;
+  private String lat;
+  private String lon;
+  private Long cityId;
 }

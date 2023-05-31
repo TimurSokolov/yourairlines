@@ -10,7 +10,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public abstract class VersionedDto extends LongIdDto {
-    @NotNull(message = "Поле 'version' обязательно для заполнения", groups = {Update.class})
-    @Null(message = "Поле 'version' не должно быть заполнено", groups = {Create.class})
-    private Long version;
+  @NotNull(
+      message = "Поле 'version' обязательно для заполнения",
+      groups = {Update.class})
+  @Null(
+      message = "Поле 'version' не должно быть заполнено",
+      groups = {Create.class})
+  private Long version;
 }

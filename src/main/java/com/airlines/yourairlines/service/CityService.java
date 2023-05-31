@@ -8,16 +8,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CityService extends CrudService<City> implements ICityService {
-    @Autowired
-    private ICityRepository cityRepository;
+  @Autowired private ICityRepository cityRepository;
 
-    @Override
-    public IBaseRepository<City> getRepository() {
-        return cityRepository;
-    }
+  @Override
+  public IBaseRepository<City> getRepository() {
+    return cityRepository;
+  }
 
-    @Override
-    protected void validate(City entity) {
-    }
-
+  @Override
+  protected void validate(City entity) {}
 }

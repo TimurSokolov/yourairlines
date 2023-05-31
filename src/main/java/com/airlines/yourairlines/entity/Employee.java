@@ -8,5 +8,5 @@ import lombok.Setter;
 @Setter
 @Entity
 public class Employee extends Person {
-    private Long employeeId;
+  private Long employeeId;
 }
