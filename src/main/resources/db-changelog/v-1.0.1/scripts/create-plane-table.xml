@@ -1,0 +1,47 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="Andrei_Shamshurin" id="create-plane-table">
+        <createTable tableName="plane">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+
+            <column name="version" type="BIGINT"/>
+
+            <column name="side_number" type="varchar(256)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="brand" type="varchar(256)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="model" type="varchar(256)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="max_flight_range" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="max_number_of_people" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="fuel_consumption" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="cruise_speed" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="end_of_reserve_time" type="TIMESTAMP WITHOUT TIME ZONE"/>
+
+
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
